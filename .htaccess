@@ -1,0 +1,16 @@
+# Enable PHP processing
+<FilesMatch "\.php$">
+    SetHandler application/x-httpd-php
+</FilesMatch>
+
+# Turn on URL rewriting
+RewriteEngine On
+
+# Prevent directory listing
+Options -Indexes
+
+# REST API routing
+# Route all /api/* requests to backend/api/index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^api/(.*)$ backend/api/index.php?_route=$1 [QSA,L]
