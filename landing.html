@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Rufbac Tour System - Air Traffic Control for Tour Bookings. Manage bookings, capacity, and revenue with precision.">
+    <title>RTS | Air Traffic Control for Tours</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <!-- Google Fonts - Outfit (modern, clean) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Shared Dashboard CSS -->
+    <link href="assets/css/style.css" rel="stylesheet">
+    
+    <!-- Landing Page Specific Styles -->
+    <link href="assets/css/landing.css" rel="stylesheet">
+</head>
+<body class="landing-page">
+    <!-- Animated Background -->
+    <div class="bg-gradient-animated"></div>
+    <div class="bg-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg glass-nav fixed-top">
+        <div class="container px-4">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <div class="brand-icon me-2">
+                    <i class="bi bi-airplane-engines"></i>
+                </div>
+                <div>
+                    <span class="brand-text">RTS</span>
+                    <small class="brand-subtitle d-none d-sm-block">Air Traffic Control</small>
+                </div>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#workflow">How It Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tech">Tech Stack</a>
+                    </li>
+                </ul>
+                <a href="index.html" class="btn btn-primary btn-glow">
+                    <i class="bi bi-speedometer2 me-2"></i>Open Dashboard
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6">
+                    <div class="hero-badge">
+                        <i class="bi bi-stars me-2"></i>Tour Management Reimagined
+                    </div>
+                    <h1 class="hero-title">
+                        Air Traffic Control<br>
+                        <span class="text-gradient">for Tours</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Precision booking management that eliminates spreadsheet chaos, 
+                        prevents overbooking, and gives you real-time visibility into 
+                        your tour operations.
+                    </p>
+                    <div class="hero-cta">
+                        <a href="index.html" class="btn btn-primary btn-lg btn-glow me-3">
+                            <i class="bi bi-speedometer2 me-2"></i>Open Dashboard
+                        </a>
+                        <a href="#features" class="btn btn-outline-light btn-lg">
+                            <i class="bi bi-play-circle me-2"></i>See Features
+                        </a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">20+</span>
+                            <span class="stat-label">Active Bookings</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">8</span>
+                            <span class="stat-label">Tour Routes</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">$124K</span>
+                            <span class="stat-label">Revenue Tracked</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-visual">
+                        <div class="dashboard-preview glass-card">
+                            <div class="preview-header">
+                                <div class="preview-dots">
+                                    <span></span><span></span><span></span>
+                                </div>
+                                <span class="preview-title">RTS Dashboard</span>
+                            </div>
+                            <div class="preview-content">
+                                <div class="preview-stat-row">
+                                    <div class="preview-stat">
+                                        <i class="bi bi-calendar-check"></i>
+                                        <span>20</span>
+                                        <small>Bookings</small>
+                                    </div>
+                                    <div class="preview-stat pending">
+                                        <i class="bi bi-hourglass-split"></i>
+                                        <span>8</span>
+                                        <small>Pending</small>
+                                    </div>
+                                    <div class="preview-stat confirmed">
+                                        <i class="bi bi-check-circle"></i>
+                                        <span>11</span>
+                                        <small>Confirmed</small>
+                                    </div>
+                                </div>
+                                <div class="preview-chart">
+                                    <div class="chart-bar" style="--height: 60%"></div>
+                                    <div class="chart-bar" style="--height: 80%"></div>
+                                    <div class="chart-bar" style="--height: 45%"></div>
+                                    <div class="chart-bar" style="--height: 90%"></div>
+                                    <div class="chart-bar" style="--height: 70%"></div>
+                                    <div class="chart-bar active" style="--height: 85%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="floating-card card-1 glass-card">
+                            <i class="bi bi-geo-alt text-primary"></i>
+                            <span>Santorini, Greece</span>
+                        </div>
+                        <div class="floating-card card-2 glass-card">
+                            <i class="bi bi-currency-dollar text-success"></i>
+                            <span>+$5,000</span>
+                        </div>
+                        <div class="floating-card card-3 glass-card">
+                            <i class="bi bi-person-check text-info"></i>
+                            <span>Confirmed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem / Solution Section -->
+    <section id="problem" class="section-padding">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="problem-card glass-card h-100">
+                        <div class="card-icon problem-icon">
+                            <i class="bi bi-exclamation-triangle"></i>
+                        </div>
+                        <h3>The Problem</h3>
+                        <ul class="problem-list">
+                            <li>
+                                <i class="bi bi-x-circle"></i>
+                                Spreadsheets that get out of sync
+                            </li>
+                            <li>
+                                <i class="bi bi-x-circle"></i>
+                                Overbooking nightmares
+                            </li>
+                            <li>
+                                <i class="bi bi-x-circle"></i>
+                                No real-time capacity visibility
+                            </li>
+                            <li>
+                                <i class="bi bi-x-circle"></i>
+                                Manual revenue calculations
+                            </li>
+                            <li>
+                                <i class="bi bi-x-circle"></i>
+                                Lost customer history
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="solution-card glass-card h-100">
+                        <div class="card-icon solution-icon">
+                            <i class="bi bi-check-circle"></i>
+                        </div>
+                        <h3>The Solution</h3>
+                        <ul class="solution-list">
+                            <li>
+                                <i class="bi bi-check-circle-fill"></i>
+                                Single source of truth for all bookings
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle-fill"></i>
+                                Automatic capacity tracking
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle-fill"></i>
+                                Live dashboard with instant updates
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle-fill"></i>
+                                Built-in revenue & payment tracking
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle-fill"></i>
+                                Complete customer booking history
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section-padding">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-badge">Features</span>
+                <h2 class="section-title">Everything You Need to<br><span class="text-gradient">Control Your Tours</span></h2>
+                <p class="section-subtitle">
+                    Purpose-built tools for tour operators who demand precision
+                </p>
+            </div>
+            
+            <div class="row g-4 mt-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card glass-card h-100">
+                        <div class="feature-icon">
+                            <i class="bi bi-speedometer2"></i>
+                        </div>
+                        <h4>Live Dashboard</h4>
+                        <p>Real-time overview of bookings, revenue, and tour status at a glance. No refresh needed.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card glass-card h-100">
+                        <div class="feature-icon accent">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <h4>Capacity Control</h4>
+                        <p>Track available spots per tour in real-time. Never overbook again.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card glass-card h-100">
+                        <div class="feature-icon">
+                            <i class="bi bi-graph-up-arrow"></i>
+                        </div>
+                        <h4>Smart Stats</h4>
+                        <p>Revenue breakdown, booking trends, and payment status tracking built-in.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card glass-card h-100">
+                        <div class="feature-icon accent">
+                            <i class="bi bi-search"></i>
+                        </div>
+                        <h4>Instant Search</h4>
+                        <p>Find any booking, customer, or tour in milliseconds with smart filtering.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card glass-card h-100">
+                        <div class="feature-icon">
+                            <i class="bi bi-person-lines-fill"></i>
+                        </div>
+                        <h4>Customer Profiles</h4>
+                        <p>Complete booking history, contact info, and notes for every traveler.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card glass-card h-100">
+                        <div class="feature-icon accent">
+                            <i class="bi bi-cloud-arrow-up"></i>
+                        </div>
+                        <h4>REST API</h4>
+                        <p>Modern API backend ready for integrations, mobile apps, or custom frontends.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workflow Section -->
+    <section id="workflow" class="section-padding">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-badge">Workflow</span>
+                <h2 class="section-title">How It Works</h2>
+                <p class="section-subtitle">
+                    From inquiry to confirmation in three simple steps
+                </p>
+            </div>
+            
+            <div class="workflow-timeline">
+                <div class="row g-4">
+                    <div class="col-lg-4">
+                        <div class="workflow-step glass-card">
+                            <div class="step-number">1</div>
+                            <div class="step-icon">
+                                <i class="bi bi-plus-circle"></i>
+                            </div>
+                            <h4>Create Booking</h4>
+                            <p>Select tour, customer, dates, and guest count. The system checks capacity automatically.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="workflow-step glass-card">
+                            <div class="step-number">2</div>
+                            <div class="step-icon">
+                                <i class="bi bi-credit-card"></i>
+                            </div>
+                            <h4>Track Payment</h4>
+                            <p>Mark payments as unpaid, partial, or paid. Revenue stats update instantly.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="workflow-step glass-card">
+                            <div class="step-number">3</div>
+                            <div class="step-icon">
+                                <i class="bi bi-check2-all"></i>
+                            </div>
+                            <h4>Confirm & Go</h4>
+                            <p>Update status to confirmed. Dashboard shows live tour capacity and revenue collected.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section id="tech" class="section-padding">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-badge">Under the Hood</span>
+                <h2 class="section-title">Built With Modern Tech</h2>
+                <p class="section-subtitle">
+                    Simple, proven technologies that just work
+                </p>
+            </div>
+            
+            <div class="row g-4 justify-content-center mt-4">
+                <div class="col-6 col-md-3">
+                    <div class="tech-card glass-card text-center">
+                        <div class="tech-icon">
+                            <i class="bi bi-filetype-php"></i>
+                        </div>
+                        <h5>PHP 8+</h5>
+                        <p>Backend API</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="tech-card glass-card text-center">
+                        <div class="tech-icon">
+                            <i class="bi bi-database"></i>
+                        </div>
+                        <h5>MySQL</h5>
+                        <p>Data Storage</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="tech-card glass-card text-center">
+                        <div class="tech-icon">
+                            <i class="bi bi-braces"></i>
+                        </div>
+                        <h5>REST API</h5>
+                        <p>Clean Endpoints</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="tech-card glass-card text-center">
+                        <div class="tech-icon">
+                            <i class="bi bi-bootstrap"></i>
+                        </div>
+                        <h5>Bootstrap 5</h5>
+                        <p>Responsive UI</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section id="cta" class="section-padding cta-section">
+        <div class="container">
+            <div class="cta-card glass-card text-center">
+                <h2 class="cta-title">Ready to Take Control?</h2>
+                <p class="cta-subtitle">
+                    Open the dashboard and see your tour operations with crystal clarity.
+                </p>
+                <a href="index.html" class="btn btn-primary btn-lg btn-glow">
+                    <i class="bi bi-speedometer2 me-2"></i>Launch Dashboard
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="landing-footer">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="footer-brand">
+                        <i class="bi bi-airplane-engines me-2"></i>
+                        <span>RTS</span> — Rufbac Tour System
+                    </div>
+                    <p class="footer-text">Air Traffic Control for Tours</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="footer-version">v1.0.0 • REST API Powered</p>
+                    <p class="footer-copy">&copy; 2025 RTS. Built for precision.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Landing Page JS -->
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+                
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar background on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('.glass-nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Track dashboard button clicks
+        document.querySelectorAll('a[href="index.html"]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                console.log('[Landing] Opening Dashboard...');
+            });
+        });
+    </script>
+</body>
+</html>
+
