@@ -13,6 +13,9 @@ const App = (() => {
         bookings: [],
         tours: [],
         customers: [],
+        services: [],
+        destinations: [],
+        fleet: [],
         stats: null,
         filters: {
             status: '',
@@ -27,6 +30,10 @@ const App = (() => {
         currentBookingId: null,
         currentTourId: null,
         currentCustomerId: null,
+        currentServiceId: null,
+        currentDestinationId: null,
+        currentFleetId: null,
+        currentManagementType: null, // 'services', 'destinations', 'fleet'
         isLoading: false
     };
     
@@ -74,6 +81,16 @@ const App = (() => {
         saveTourBtn: document.getElementById('saveTourBtn'),
         saveCustomerBtn: document.getElementById('saveCustomerBtn'),
         confirmDeleteBtn: document.getElementById('confirmDeleteBtn'),
+        manageServicesBtn: document.getElementById('manageServicesBtn'),
+        manageDestinationsBtn: document.getElementById('manageDestinationsBtn'),
+        manageFleetBtn: document.getElementById('manageFleetBtn'),
+        saveServiceBtn: document.getElementById('saveServiceBtn'),
+        saveDestinationBtn: document.getElementById('saveDestinationBtn'),
+        saveFleetBtn: document.getElementById('saveFleetBtn'),
+        addNewItemBtn: document.getElementById('addNewItemBtn'),
+        serviceUploadBtn: document.getElementById('serviceUploadBtn'),
+        destinationUploadBtn: document.getElementById('destinationUploadBtn'),
+        fleetUploadBtn: document.getElementById('fleetUploadBtn'),
         
         // Modals
         bookingModal: document.getElementById('bookingModal'),
@@ -85,6 +102,19 @@ const App = (() => {
         customerModal: document.getElementById('customerModal'),
         customerModalLabel: document.getElementById('customerModalLabel'),
         customerForm: document.getElementById('customerForm'),
+        serviceModal: document.getElementById('serviceModal'),
+        serviceModalLabel: document.getElementById('serviceModalLabel'),
+        serviceForm: document.getElementById('serviceForm'),
+        destinationModal: document.getElementById('destinationModal'),
+        destinationModalLabel: document.getElementById('destinationModalLabel'),
+        destinationForm: document.getElementById('destinationForm'),
+        fleetModal: document.getElementById('fleetModal'),
+        fleetModalLabel: document.getElementById('fleetModalLabel'),
+        fleetForm: document.getElementById('fleetForm'),
+        managementModal: document.getElementById('managementModal'),
+        managementModalLabel: document.getElementById('managementModalLabel'),
+        managementTableHeader: document.getElementById('managementTableHeader'),
+        managementTableBody: document.getElementById('managementTableBody'),
         
         // Form fields
         bookingId: document.getElementById('bookingId'),
@@ -182,6 +212,52 @@ const App = (() => {
         elements.saveCustomerBtn.addEventListener('click', handleCustomerSubmit);
         elements.confirmDeleteBtn.addEventListener('click', handleDelete);
         
+        // Landing page management
+        if (elements.manageServicesBtn) {
+            elements.manageServicesBtn.addEventListener('click', () => showManagementTable('services'));
+        }
+        if (elements.manageDestinationsBtn) {
+            elements.manageDestinationsBtn.addEventListener('click', () => showManagementTable('destinations'));
+        }
+        if (elements.manageFleetBtn) {
+            elements.manageFleetBtn.addEventListener('click', () => showManagementTable('fleet'));
+        }
+        if (elements.addNewItemBtn) {
+            elements.addNewItemBtn.addEventListener('click', handleAddNewItem);
+        }
+        if (elements.saveServiceBtn) {
+            elements.saveServiceBtn.addEventListener('click', handleServiceSubmit);
+        }
+        if (elements.saveDestinationBtn) {
+            elements.saveDestinationBtn.addEventListener('click', handleDestinationSubmit);
+        }
+        if (elements.saveFleetBtn) {
+            elements.saveFleetBtn.addEventListener('click', handleFleetSubmit);
+        }
+        if (elements.serviceUploadBtn) {
+            elements.serviceUploadBtn.addEventListener('click', () => document.getElementById('serviceImageFile').click());
+        }
+        if (elements.destinationUploadBtn) {
+            elements.destinationUploadBtn.addEventListener('click', () => document.getElementById('destinationImageFile').click());
+        }
+        if (elements.fleetUploadBtn) {
+            elements.fleetUploadBtn.addEventListener('click', () => document.getElementById('fleetImageFile').click());
+        }
+        
+        // Image upload handlers
+        const serviceImageFile = document.getElementById('serviceImageFile');
+        const destinationImageFile = document.getElementById('destinationImageFile');
+        const fleetImageFile = document.getElementById('fleetImageFile');
+        if (serviceImageFile) {
+            serviceImageFile.addEventListener('change', (e) => handleImageUpload(e, 'services', 'serviceImageUrl', 'serviceImagePreview'));
+        }
+        if (destinationImageFile) {
+            destinationImageFile.addEventListener('change', (e) => handleImageUpload(e, 'destinations', 'destinationImageUrl', 'destinationImagePreview'));
+        }
+        if (fleetImageFile) {
+            fleetImageFile.addEventListener('change', (e) => handleImageUpload(e, 'fleet', 'fleetImageUrl', 'fleetImagePreview'));
+        }
+        
         // Filters
         elements.searchInput.addEventListener('input', debounce(handleSearch, 300));
         elements.statusFilter.addEventListener('change', handleFilterChange);
@@ -194,6 +270,15 @@ const App = (() => {
         elements.bookingModal.addEventListener('hidden.bs.modal', resetForm);
         elements.tourModal.addEventListener('hidden.bs.modal', resetTourForm);
         elements.customerModal.addEventListener('hidden.bs.modal', resetCustomerForm);
+        if (elements.serviceModal) {
+            elements.serviceModal.addEventListener('hidden.bs.modal', resetServiceForm);
+        }
+        if (elements.destinationModal) {
+            elements.destinationModal.addEventListener('hidden.bs.modal', resetDestinationForm);
+        }
+        if (elements.fleetModal) {
+            elements.fleetModal.addEventListener('hidden.bs.modal', resetFleetForm);
+        }
     }
     
     // =========================================
@@ -1165,6 +1250,542 @@ const App = (() => {
     }
     
     // =========================================
+    // LANDING PAGE MANAGEMENT FUNCTIONS
+    // =========================================
+    
+    /**
+     * Show management table for services, destinations, or fleet
+     */
+    async function showManagementTable(type) {
+        state.currentManagementType = type;
+        const modal = new bootstrap.Modal(elements.managementModal);
+        
+        // Set modal title
+        const titles = {
+            services: 'Manage Services',
+            destinations: 'Manage Destinations',
+            fleet: 'Manage Fleet'
+        };
+        elements.managementModalLabel.innerHTML = `<i class="bi bi-list-ul me-2"></i>${titles[type]}`;
+        
+        // Load data
+        try {
+            setLoading(true);
+            let response;
+            if (type === 'services') {
+                response = await API.fetchServices();
+                state.services = response.data?.services || [];
+            } else if (type === 'destinations') {
+                response = await API.fetchDestinations();
+                state.destinations = response.data?.destinations || [];
+            } else if (type === 'fleet') {
+                response = await API.fetchFleet();
+                state.fleet = response.data?.fleet || [];
+            }
+            
+            renderManagementTable(type);
+            modal.show();
+        } catch (error) {
+            showToast('Failed to load data', 'error');
+            console.error('Error loading management data:', error);
+        } finally {
+            setLoading(false);
+        }
+    }
+    
+    /**
+     * Render management table
+     */
+    function renderManagementTable(type) {
+        const headers = {
+            services: ['Type', 'Name', 'Icon', 'Active', 'Order', 'Actions'],
+            destinations: ['Name', 'Duration', 'Capacity', 'Featured', 'Order', 'Actions'],
+            fleet: ['Vehicle Type', 'Capacity', 'Price/Day', 'Featured', 'Order', 'Actions']
+        };
+        
+        // Render header
+        elements.managementTableHeader.innerHTML = headers[type].map(h => `<th>${h}</th>`).join('');
+        
+        // Render body
+        let data = [];
+        if (type === 'services') {
+            data = state.services;
+        } else if (type === 'destinations') {
+            data = state.destinations;
+        } else if (type === 'fleet') {
+            data = state.fleet;
+        }
+        
+        if (data.length === 0) {
+            elements.managementTableBody.innerHTML = `<tr><td colspan="${headers[type].length}" class="text-center text-muted">No items found</td></tr>`;
+            return;
+        }
+        
+        elements.managementTableBody.innerHTML = data.map(item => {
+            if (type === 'services') {
+                return `
+                    <tr>
+                        <td>${escapeHtml(item.service_type)}</td>
+                        <td>${escapeHtml(item.name)}</td>
+                        <td><i class="${escapeHtml(item.icon_class || 'bi bi-star')}"></i></td>
+                        <td>${item.is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-secondary">No</span>'}</td>
+                        <td>${item.display_order}</td>
+                        <td>
+                            <button class="btn btn-sm btn-glass me-1" onclick="App.editService(${item.id})">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="App.confirmDeleteService(${item.id})">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            } else if (type === 'destinations') {
+                return `
+                    <tr>
+                        <td>${escapeHtml(item.name)}</td>
+                        <td>${item.duration_hours} hrs</td>
+                        <td>${item.max_capacity}</td>
+                        <td>${item.is_featured ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-secondary">No</span>'}</td>
+                        <td>${item.display_order}</td>
+                        <td>
+                            <button class="btn btn-sm btn-glass me-1" onclick="App.editDestination(${item.id})">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="App.confirmDeleteDestination(${item.id})">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            } else if (type === 'fleet') {
+                return `
+                    <tr>
+                        <td>${escapeHtml(item.vehicle_type)}</td>
+                        <td>${item.capacity}</td>
+                        <td>$${parseFloat(item.price_per_day).toFixed(2)}</td>
+                        <td>${item.is_featured ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-secondary">No</span>'}</td>
+                        <td>${item.display_order}</td>
+                        <td>
+                            <button class="btn btn-sm btn-glass me-1" onclick="App.editFleet(${item.id})">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="App.confirmDeleteFleet(${item.id})">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }
+        }).join('');
+    }
+    
+    /**
+     * Handle add new item button
+     */
+    function handleAddNewItem() {
+        const type = state.currentManagementType;
+        if (type === 'services') {
+            showServiceModal();
+        } else if (type === 'destinations') {
+            showDestinationModal();
+        } else if (type === 'fleet') {
+            showFleetModal();
+        }
+    }
+    
+    /**
+     * Show service modal
+     */
+    function showServiceModal(id = null) {
+        state.currentServiceId = id;
+        const modal = new bootstrap.Modal(elements.serviceModal);
+        
+        if (id) {
+            elements.serviceModalLabel.innerHTML = '<i class="bi bi-pencil me-2"></i>Edit Service';
+            loadService(id);
+        } else {
+            elements.serviceModalLabel.innerHTML = '<i class="bi bi-plus-lg me-2"></i>New Service';
+            resetServiceForm();
+        }
+        
+        modal.show();
+    }
+    
+    /**
+     * Show destination modal
+     */
+    function showDestinationModal(id = null) {
+        state.currentDestinationId = id;
+        const modal = new bootstrap.Modal(elements.destinationModal);
+        
+        if (id) {
+            elements.destinationModalLabel.innerHTML = '<i class="bi bi-pencil me-2"></i>Edit Destination';
+            loadDestination(id);
+        } else {
+            elements.destinationModalLabel.innerHTML = '<i class="bi bi-plus-lg me-2"></i>New Destination';
+            resetDestinationForm();
+        }
+        
+        modal.show();
+    }
+    
+    /**
+     * Show fleet modal
+     */
+    function showFleetModal(id = null) {
+        state.currentFleetId = id;
+        const modal = new bootstrap.Modal(elements.fleetModal);
+        
+        if (id) {
+            elements.fleetModalLabel.innerHTML = '<i class="bi bi-pencil me-2"></i>Edit Fleet Vehicle';
+            loadFleetVehicle(id);
+        } else {
+            elements.fleetModalLabel.innerHTML = '<i class="bi bi-plus-lg me-2"></i>New Fleet Vehicle';
+            resetFleetForm();
+        }
+        
+        modal.show();
+    }
+    
+    /**
+     * Load service data
+     */
+    async function loadService(id) {
+        try {
+            const response = await API.fetchService(id);
+            const service = response.data;
+            
+            elements.serviceId.value = service.id;
+            document.getElementById('serviceType').value = service.service_type;
+            document.getElementById('serviceName').value = service.name || '';
+            document.getElementById('serviceDescription').value = service.description || '';
+            document.getElementById('serviceIcon').value = service.icon_class || '';
+            document.getElementById('serviceDisplayOrder').value = service.display_order || 0;
+            document.getElementById('serviceBenefits').value = Array.isArray(service.benefits) 
+                ? service.benefits.join('\n') 
+                : (service.benefits || '');
+            document.getElementById('serviceImageUrl').value = service.image_url || '';
+            document.getElementById('serviceIsActive').checked = service.is_active !== false;
+            
+            if (service.image_url) {
+                document.getElementById('serviceImagePreview').innerHTML = 
+                    `<img src="${service.image_url}" class="img-thumbnail" style="max-width: 200px;">`;
+            }
+        } catch (error) {
+            showToast('Failed to load service', 'error');
+            console.error('Error loading service:', error);
+        }
+    }
+    
+    /**
+     * Load destination data
+     */
+    async function loadDestination(id) {
+        try {
+            const response = await API.fetchDestination(id);
+            const destination = response.data;
+            
+            elements.destinationId.value = destination.id;
+            document.getElementById('destinationName').value = destination.name || '';
+            document.getElementById('destinationDescription').value = destination.description || '';
+            document.getElementById('destinationDuration').value = destination.duration_hours || '';
+            document.getElementById('destinationCapacity').value = destination.max_capacity || '';
+            document.getElementById('destinationDisplayOrder').value = destination.display_order || 0;
+            document.getElementById('destinationImageUrl').value = destination.image_url || '';
+            document.getElementById('destinationIsFeatured').checked = destination.is_featured === true;
+            
+            if (destination.image_url) {
+                document.getElementById('destinationImagePreview').innerHTML = 
+                    `<img src="${destination.image_url}" class="img-thumbnail" style="max-width: 200px;">`;
+            }
+        } catch (error) {
+            showToast('Failed to load destination', 'error');
+            console.error('Error loading destination:', error);
+        }
+    }
+    
+    /**
+     * Load fleet vehicle data
+     */
+    async function loadFleetVehicle(id) {
+        try {
+            const response = await API.fetchFleetVehicle(id);
+            const vehicle = response.data;
+            
+            elements.fleetId.value = vehicle.id;
+            document.getElementById('fleetVehicleType').value = vehicle.vehicle_type || '';
+            document.getElementById('fleetDescription').value = vehicle.description || '';
+            document.getElementById('fleetCapacity').value = vehicle.capacity || '';
+            document.getElementById('fleetPrice').value = vehicle.price_per_day || '';
+            document.getElementById('fleetDisplayOrder').value = vehicle.display_order || 0;
+            document.getElementById('fleetFeatures').value = Array.isArray(vehicle.features) 
+                ? vehicle.features.join('\n') 
+                : (vehicle.features || '');
+            document.getElementById('fleetImageUrl').value = vehicle.image_url || '';
+            document.getElementById('fleetIsFeatured').checked = vehicle.is_featured === true;
+            
+            if (vehicle.image_url) {
+                document.getElementById('fleetImagePreview').innerHTML = 
+                    `<img src="${vehicle.image_url}" class="img-thumbnail" style="max-width: 200px;">`;
+            }
+        } catch (error) {
+            showToast('Failed to load fleet vehicle', 'error');
+            console.error('Error loading fleet vehicle:', error);
+        }
+    }
+    
+    /**
+     * Handle service form submit
+     */
+    async function handleServiceSubmit() {
+        try {
+            const benefits = document.getElementById('serviceBenefits').value
+                .split('\n')
+                .map(b => b.trim())
+                .filter(b => b.length > 0);
+            
+            const data = {
+                service_type: document.getElementById('serviceType').value,
+                name: document.getElementById('serviceName').value,
+                description: document.getElementById('serviceDescription').value,
+                icon_class: document.getElementById('serviceIcon').value,
+                benefits: benefits,
+                image_url: document.getElementById('serviceImageUrl').value,
+                is_active: document.getElementById('serviceIsActive').checked,
+                display_order: parseInt(document.getElementById('serviceDisplayOrder').value) || 0
+            };
+            
+            if (!data.service_type || !data.name) {
+                showToast('Please fill in required fields', 'error');
+                return;
+            }
+            
+            setLoading(true);
+            
+            if (state.currentServiceId) {
+                await API.updateService(state.currentServiceId, data);
+                showToast('Service updated successfully', 'success');
+            } else {
+                await API.createService(data);
+                showToast('Service created successfully', 'success');
+            }
+            
+            const modal = bootstrap.Modal.getInstance(elements.serviceModal);
+            modal.hide();
+            
+            // Refresh management table
+            await showManagementTable('services');
+        } catch (error) {
+            showToast(error.message || 'Failed to save service', 'error');
+            console.error('Error saving service:', error);
+        } finally {
+            setLoading(false);
+        }
+    }
+    
+    /**
+     * Handle destination form submit
+     */
+    async function handleDestinationSubmit() {
+        try {
+            const data = {
+                name: document.getElementById('destinationName').value,
+                description: document.getElementById('destinationDescription').value,
+                duration_hours: parseInt(document.getElementById('destinationDuration').value),
+                max_capacity: parseInt(document.getElementById('destinationCapacity').value),
+                image_url: document.getElementById('destinationImageUrl').value,
+                is_featured: document.getElementById('destinationIsFeatured').checked,
+                display_order: parseInt(document.getElementById('destinationDisplayOrder').value) || 0
+            };
+            
+            if (!data.name || !data.duration_hours || !data.max_capacity) {
+                showToast('Please fill in required fields', 'error');
+                return;
+            }
+            
+            setLoading(true);
+            
+            if (state.currentDestinationId) {
+                await API.updateDestination(state.currentDestinationId, data);
+                showToast('Destination updated successfully', 'success');
+            } else {
+                await API.createDestination(data);
+                showToast('Destination created successfully', 'success');
+            }
+            
+            const modal = bootstrap.Modal.getInstance(elements.destinationModal);
+            modal.hide();
+            
+            // Refresh management table
+            await showManagementTable('destinations');
+        } catch (error) {
+            showToast(error.message || 'Failed to save destination', 'error');
+            console.error('Error saving destination:', error);
+        } finally {
+            setLoading(false);
+        }
+    }
+    
+    /**
+     * Handle fleet form submit
+     */
+    async function handleFleetSubmit() {
+        try {
+            const features = document.getElementById('fleetFeatures').value
+                .split('\n')
+                .map(f => f.trim())
+                .filter(f => f.length > 0);
+            
+            const data = {
+                vehicle_type: document.getElementById('fleetVehicleType').value,
+                description: document.getElementById('fleetDescription').value,
+                capacity: parseInt(document.getElementById('fleetCapacity').value),
+                price_per_day: parseFloat(document.getElementById('fleetPrice').value),
+                features: features,
+                image_url: document.getElementById('fleetImageUrl').value,
+                is_featured: document.getElementById('fleetIsFeatured').checked,
+                display_order: parseInt(document.getElementById('fleetDisplayOrder').value) || 0
+            };
+            
+            if (!data.vehicle_type || !data.capacity || !data.price_per_day) {
+                showToast('Please fill in required fields', 'error');
+                return;
+            }
+            
+            setLoading(true);
+            
+            if (state.currentFleetId) {
+                await API.updateFleet(state.currentFleetId, data);
+                showToast('Fleet vehicle updated successfully', 'success');
+            } else {
+                await API.createFleet(data);
+                showToast('Fleet vehicle created successfully', 'success');
+            }
+            
+            const modal = bootstrap.Modal.getInstance(elements.fleetModal);
+            modal.hide();
+            
+            // Refresh management table
+            await showManagementTable('fleet');
+        } catch (error) {
+            showToast(error.message || 'Failed to save fleet vehicle', 'error');
+            console.error('Error saving fleet vehicle:', error);
+        } finally {
+            setLoading(false);
+        }
+    }
+    
+    /**
+     * Handle image upload
+     */
+    async function handleImageUpload(event, type, urlInputId, previewId) {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        try {
+            setLoading(true);
+            const response = await API.uploadImage(file, type);
+            document.getElementById(urlInputId).value = response.data.path;
+            document.getElementById(previewId).innerHTML = 
+                `<img src="${response.data.url}" class="img-thumbnail" style="max-width: 200px;">`;
+            showToast('Image uploaded successfully', 'success');
+        } catch (error) {
+            showToast('Failed to upload image', 'error');
+            console.error('Image upload error:', error);
+        } finally {
+            setLoading(false);
+        }
+    }
+    
+    /**
+     * Reset service form
+     */
+    function resetServiceForm() {
+        elements.serviceForm.reset();
+        elements.serviceId.value = '';
+        state.currentServiceId = null;
+        document.getElementById('serviceImagePreview').innerHTML = '';
+    }
+    
+    /**
+     * Reset destination form
+     */
+    function resetDestinationForm() {
+        elements.destinationForm.reset();
+        elements.destinationId.value = '';
+        state.currentDestinationId = null;
+        document.getElementById('destinationImagePreview').innerHTML = '';
+    }
+    
+    /**
+     * Reset fleet form
+     */
+    function resetFleetForm() {
+        elements.fleetForm.reset();
+        elements.fleetId.value = '';
+        state.currentFleetId = null;
+        document.getElementById('fleetImagePreview').innerHTML = '';
+    }
+    
+    /**
+     * Confirm delete service
+     */
+    async function confirmDeleteService(id) {
+        if (!confirm('Are you sure you want to delete this service?')) return;
+        
+        try {
+            setLoading(true);
+            await API.deleteService(id);
+            showToast('Service deleted successfully', 'success');
+            await showManagementTable('services');
+        } catch (error) {
+            showToast('Failed to delete service', 'error');
+            console.error('Error deleting service:', error);
+        } finally {
+            setLoading(false);
+        }
+    }
+    
+    /**
+     * Confirm delete destination
+     */
+    async function confirmDeleteDestination(id) {
+        if (!confirm('Are you sure you want to delete this destination?')) return;
+        
+        try {
+            setLoading(true);
+            await API.deleteDestination(id);
+            showToast('Destination deleted successfully', 'success');
+            await showManagementTable('destinations');
+        } catch (error) {
+            showToast('Failed to delete destination', 'error');
+            console.error('Error deleting destination:', error);
+        } finally {
+            setLoading(false);
+        }
+    }
+    
+    /**
+     * Confirm delete fleet
+     */
+    async function confirmDeleteFleet(id) {
+        if (!confirm('Are you sure you want to delete this fleet vehicle?')) return;
+        
+        try {
+            setLoading(true);
+            await API.deleteFleet(id);
+            showToast('Fleet vehicle deleted successfully', 'success');
+            await showManagementTable('fleet');
+        } catch (error) {
+            showToast('Failed to delete fleet vehicle', 'error');
+            console.error('Error deleting fleet vehicle:', error);
+        } finally {
+            setLoading(false);
+        }
+    }
+    
+    // =========================================
     // PUBLIC API
     // =========================================
     
@@ -1176,6 +1797,12 @@ const App = (() => {
         confirmDeleteTour,
         editCustomer: showCustomerModal,
         confirmDeleteCustomer,
+        editService: showServiceModal,
+        confirmDeleteService,
+        editDestination: showDestinationModal,
+        confirmDeleteDestination,
+        editFleet: showFleetModal,
+        confirmDeleteFleet,
         showToast,
         goToPage,
         goToPrevPage,

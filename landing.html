@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Rufbac Tour System - Air Traffic Control for Tour Bookings. Manage bookings, capacity, and revenue with precision.">
-    <title>RTS | Air Traffic Control for Tours</title>
+    <meta name="description" content="Ruf Bac Tour Services - Premium car rentals, island tours, and shuttle services. Discover paradise with our premium fleet and expert guides.">
+    <title>Ruf Bac Tour Services | Discover Paradise</title>
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -12,10 +12,10 @@
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     
-    <!-- Google Fonts - Outfit (modern, clean) -->
+    <!-- Google Fonts - Inter (bold, readable) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Shared Dashboard CSS -->
     <link href="assets/css/style.css" rel="stylesheet">
@@ -23,25 +23,17 @@
     <!-- Landing Page Specific Styles -->
     <link href="assets/css/landing.css" rel="stylesheet">
 </head>
-<body class="landing-page">
-    <!-- Animated Background -->
-    <div class="bg-gradient-animated"></div>
-    <div class="bg-shapes">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
-    </div>
-
+<body class="landing-page tropical-landing">
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg glass-nav fixed-top">
         <div class="container px-4">
             <a class="navbar-brand d-flex align-items-center" href="#">
                 <div class="brand-icon me-2">
-                    <i class="bi bi-airplane-engines"></i>
+                    <i class="bi bi-geo-alt-fill"></i>
                 </div>
                 <div>
-                    <span class="brand-text">RTS</span>
-                    <small class="brand-subtitle d-none d-sm-block">Air Traffic Control</small>
+                    <span class="brand-text">Ruf Bac</span>
+                    <small class="brand-subtitle d-none d-sm-block">Tour Services</small>
                 </div>
             </a>
             
@@ -52,349 +44,265 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#features">Features</a>
+                        <a class="nav-link" href="#hero">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#workflow">How It Works</a>
+                        <a class="nav-link" href="#destinations">Destinations</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#tech">Tech Stack</a>
+                        <a class="nav-link" href="#fleet">Fleet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
                     </li>
                 </ul>
-                <a href="index.html" class="btn btn-primary btn-glow">
-                    <i class="bi bi-speedometer2 me-2"></i>Open Dashboard
-                </a>
+                <div class="d-flex gap-2 align-items-center">
+                    <button class="btn btn-outline-tropical" id="loginBtn" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                    </button>
+                    <a href="#hero" class="btn btn-primary-tropical btn-glow" id="bookNowNavBtn">
+                        <i class="bi bi-calendar-check me-2"></i>Book Now
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="hero" class="hero-section">
+    <section id="hero" class="hero-section-tropical">
+        <div class="hero-background-composite"></div>
         <div class="container">
             <div class="row align-items-center min-vh-100">
                 <div class="col-lg-6">
-                    <div class="hero-badge">
-                        <i class="bi bi-stars me-2"></i>Tour Management Reimagined
+                    <div class="hero-badge-tropical">
+                        <i class="bi bi-star-fill me-2"></i>Your Island Adventure Awaits
                     </div>
-                    <h1 class="hero-title">
-                        Air Traffic Control<br>
-                        <span class="text-gradient">for Tours</span>
+                    <h1 class="hero-title-tropical">
+                        Discover Paradise with<br>
+                        <span class="text-gradient-tropical">Ruf Bac Tour Services</span>
                     </h1>
-                    <p class="hero-subtitle">
-                        Precision booking management that eliminates spreadsheet chaos, 
-                        prevents overbooking, and gives you real-time visibility into 
-                        your tour operations.
+                    <p class="hero-subtitle-tropical">
+                        Premium car rentals, unforgettable island tours, and reliable shuttle services. 
+                        Experience the beauty of the islands with our trusted fleet and expert guides.
                     </p>
-                    <div class="hero-cta">
-                        <a href="index.html" class="btn btn-primary btn-lg btn-glow me-3">
-                            <i class="bi bi-speedometer2 me-2"></i>Open Dashboard
-                        </a>
-                        <a href="#features" class="btn btn-outline-light btn-lg">
-                            <i class="bi bi-play-circle me-2"></i>See Features
-                        </a>
-                    </div>
-                    <div class="hero-stats">
-                        <div class="stat-item">
-                            <span class="stat-number">20+</span>
-                            <span class="stat-label">Active Bookings</span>
+                    <div class="hero-stats-tropical">
+                        <div class="stat-item-tropical">
+                            <span class="stat-number-tropical">500+</span>
+                            <span class="stat-label-tropical">Happy Customers</span>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">8</span>
-                            <span class="stat-label">Tour Routes</span>
+                        <div class="stat-item-tropical">
+                            <span class="stat-number-tropical">50+</span>
+                            <span class="stat-label-tropical">Premium Vehicles</span>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">$124K</span>
-                            <span class="stat-label">Revenue Tracked</span>
+                        <div class="stat-item-tropical">
+                            <span class="stat-number-tropical">4.9★</span>
+                            <span class="stat-label-tropical">Average Rating</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="hero-visual">
-                        <div class="dashboard-preview glass-card">
-                            <div class="preview-header">
-                                <div class="preview-dots">
-                                    <span></span><span></span><span></span>
+                    <!-- Glassmorphism Booking Widget -->
+                    <div class="booking-widget-glass">
+                        <div class="booking-widget-header">
+                            <h3>Book Your Adventure</h3>
+                            <p>Choose your service and let's get started</p>
+                        </div>
+                        <div class="service-toggles">
+                            <button class="service-toggle active" data-service="rentals">
+                                <i class="bi bi-car-front me-2"></i>Rentals
+                            </button>
+                            <button class="service-toggle" data-service="tours">
+                                <i class="bi bi-geo-alt me-2"></i>Tours
+                            </button>
+                            <button class="service-toggle" data-service="shuttles">
+                                <i class="bi bi-bus-front me-2"></i>Shuttles
+                            </button>
+                        </div>
+                        <form class="booking-form" id="bookingForm">
+                            <!-- Rentals Form -->
+                            <div class="service-form active" data-form="rentals">
+                                <div class="form-group-glass">
+                                    <label>Pick-up Location</label>
+                                    <input type="text" class="form-control-glass" placeholder="Enter location">
                                 </div>
-                                <span class="preview-title">RTS Dashboard</span>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <div class="form-group-glass">
+                                            <label>Pick-up Date</label>
+                                            <input type="date" class="form-control-glass">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group-glass">
+                                            <label>Return Date</label>
+                                            <input type="date" class="form-control-glass">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group-glass">
+                                    <label>Vehicle Type</label>
+                                    <select class="form-control-glass">
+                                        <option>Select vehicle...</option>
+                                        <option>Premium Van</option>
+                                        <option>Luxury SUV</option>
+                                        <option>Compact Car</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="preview-content">
-                                <div class="preview-stat-row">
-                                    <div class="preview-stat">
-                                        <i class="bi bi-calendar-check"></i>
-                                        <span>20</span>
-                                        <small>Bookings</small>
-                                    </div>
-                                    <div class="preview-stat pending">
-                                        <i class="bi bi-hourglass-split"></i>
-                                        <span>8</span>
-                                        <small>Pending</small>
-                                    </div>
-                                    <div class="preview-stat confirmed">
-                                        <i class="bi bi-check-circle"></i>
-                                        <span>11</span>
-                                        <small>Confirmed</small>
-                                    </div>
+                            <!-- Tours Form -->
+                            <div class="service-form" data-form="tours">
+                                <div class="form-group-glass">
+                                    <label>Destination</label>
+                                    <select class="form-control-glass">
+                                        <option>Select destination...</option>
+                                        <option>Island Paradise Tour</option>
+                                        <option>Coastal Adventure</option>
+                                        <option>Cultural Discovery</option>
+                                    </select>
                                 </div>
-                                <div class="preview-chart">
-                                    <div class="chart-bar" style="--height: 60%"></div>
-                                    <div class="chart-bar" style="--height: 80%"></div>
-                                    <div class="chart-bar" style="--height: 45%"></div>
-                                    <div class="chart-bar" style="--height: 90%"></div>
-                                    <div class="chart-bar" style="--height: 70%"></div>
-                                    <div class="chart-bar active" style="--height: 85%"></div>
+                                <div class="form-group-glass">
+                                    <label>Tour Date</label>
+                                    <input type="date" class="form-control-glass">
+                                </div>
+                                <div class="form-group-glass">
+                                    <label>Number of Guests</label>
+                                    <input type="number" class="form-control-glass" min="1" max="20" value="2">
                                 </div>
                             </div>
-                        </div>
-                        <div class="floating-card card-1 glass-card">
-                            <i class="bi bi-geo-alt text-primary"></i>
-                            <span>Santorini, Greece</span>
-                        </div>
-                        <div class="floating-card card-2 glass-card">
-                            <i class="bi bi-currency-dollar text-success"></i>
-                            <span>+$5,000</span>
-                        </div>
-                        <div class="floating-card card-3 glass-card">
-                            <i class="bi bi-person-check text-info"></i>
-                            <span>Confirmed</span>
-                        </div>
+                            <!-- Shuttles Form -->
+                            <div class="service-form" data-form="shuttles">
+                                <div class="form-group-glass">
+                                    <label>From</label>
+                                    <input type="text" class="form-control-glass" placeholder="Pick-up location">
+                                </div>
+                                <div class="form-group-glass">
+                                    <label>To</label>
+                                    <input type="text" class="form-control-glass" placeholder="Drop-off location">
+                                </div>
+                                <div class="form-group-glass">
+                                    <label>Travel Date</label>
+                                    <input type="date" class="form-control-glass">
+                                </div>
+                                <div class="form-group-glass">
+                                    <label>Passengers</label>
+                                    <input type="number" class="form-control-glass" min="1" max="15" value="1">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary-tropical btn-block">
+                                <i class="bi bi-search me-2"></i>Check Availability
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Problem / Solution Section -->
-    <section id="problem" class="section-padding">
+    <!-- Popular Destinations Section -->
+    <section id="destinations" class="section-padding-tropical">
         <div class="container">
-            <div class="row g-4">
-                <div class="col-lg-6">
-                    <div class="problem-card glass-card h-100">
-                        <div class="card-icon problem-icon">
-                            <i class="bi bi-exclamation-triangle"></i>
-                        </div>
-                        <h3>The Problem</h3>
-                        <ul class="problem-list">
-                            <li>
-                                <i class="bi bi-x-circle"></i>
-                                Spreadsheets that get out of sync
-                            </li>
-                            <li>
-                                <i class="bi bi-x-circle"></i>
-                                Overbooking nightmares
-                            </li>
-                            <li>
-                                <i class="bi bi-x-circle"></i>
-                                No real-time capacity visibility
-                            </li>
-                            <li>
-                                <i class="bi bi-x-circle"></i>
-                                Manual revenue calculations
-                            </li>
-                            <li>
-                                <i class="bi bi-x-circle"></i>
-                                Lost customer history
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="solution-card glass-card h-100">
-                        <div class="card-icon solution-icon">
-                            <i class="bi bi-check-circle"></i>
-                        </div>
-                        <h3>The Solution</h3>
-                        <ul class="solution-list">
-                            <li>
-                                <i class="bi bi-check-circle-fill"></i>
-                                Single source of truth for all bookings
-                            </li>
-                            <li>
-                                <i class="bi bi-check-circle-fill"></i>
-                                Automatic capacity tracking
-                            </li>
-                            <li>
-                                <i class="bi bi-check-circle-fill"></i>
-                                Live dashboard with instant updates
-                            </li>
-                            <li>
-                                <i class="bi bi-check-circle-fill"></i>
-                                Built-in revenue & payment tracking
-                            </li>
-                            <li>
-                                <i class="bi bi-check-circle-fill"></i>
-                                Complete customer booking history
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="section-padding">
-        <div class="container">
-            <div class="section-header text-center">
-                <span class="section-badge">Features</span>
-                <h2 class="section-title">Everything You Need to<br><span class="text-gradient">Control Your Tours</span></h2>
-                <p class="section-subtitle">
-                    Purpose-built tools for tour operators who demand precision
+            <div class="section-header-tropical text-center">
+                <span class="section-badge-tropical">Explore</span>
+                <h2 class="section-title-tropical">
+                    Popular <span class="text-gradient-tropical">Destinations</span>
+                </h2>
+                <p class="section-subtitle-tropical">
+                    Discover breathtaking locations with our expertly curated island tours
                 </p>
+            </div>
+            
+            <div class="row g-4 mt-4" id="destinations-container">
+                <!-- Destinations will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Premium Fleet Section -->
+    <section id="fleet" class="section-padding-tropical fleet-section">
+        <div class="container">
+            <div class="section-header-tropical text-center">
+                <span class="section-badge-tropical">Our Fleet</span>
+                <h2 class="section-title-tropical">
+                    Premium <span class="text-gradient-tropical">Vehicles</span>
+                </h2>
+                <p class="section-subtitle-tropical">
+                    Travel in comfort and style with our well-maintained, modern fleet
+                </p>
+            </div>
+            
+            <div class="row g-4 mt-4" id="fleet-container">
+                <!-- Fleet vehicles will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Overview Section -->
+    <section id="services" class="section-padding-tropical services-section">
+        <div class="container">
+            <div class="section-header-tropical text-center">
+                <span class="section-badge-tropical">What We Offer</span>
+                <h2 class="section-title-tropical">
+                    Our <span class="text-gradient-tropical">Services</span>
+                </h2>
+                <p class="section-subtitle-tropical">
+                    Everything you need for an unforgettable island experience
+                </p>
+            </div>
+            
+            <div class="row g-4 mt-4" id="services-container">
+                <!-- Services will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section id="why-choose" class="section-padding-tropical why-choose-section">
+        <div class="container">
+            <div class="section-header-tropical text-center">
+                <span class="section-badge-tropical">Trust & Quality</span>
+                <h2 class="section-title-tropical">
+                    Why Choose <span class="text-gradient-tropical">Ruf Bac</span>
+                </h2>
             </div>
             
             <div class="row g-4 mt-4">
-                <div class="col-md-6 col-lg-4">
-                    <div class="feature-card glass-card h-100">
-                        <div class="feature-icon">
-                            <i class="bi bi-speedometer2"></i>
+                <div class="col-md-6 col-lg-3">
+                    <div class="trust-card-tropical">
+                        <div class="trust-icon-tropical">
+                            <i class="bi bi-shield-check"></i>
                         </div>
-                        <h4>Live Dashboard</h4>
-                        <p>Real-time overview of bookings, revenue, and tour status at a glance. No refresh needed.</p>
+                        <h5>Fully Insured</h5>
+                        <p>Comprehensive coverage for peace of mind</p>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="feature-card glass-card h-100">
-                        <div class="feature-icon accent">
-                            <i class="bi bi-people"></i>
+                <div class="col-md-6 col-lg-3">
+                    <div class="trust-card-tropical">
+                        <div class="trust-icon-tropical">
+                            <i class="bi bi-clock-history"></i>
                         </div>
-                        <h4>Capacity Control</h4>
-                        <p>Track available spots per tour in real-time. Never overbook again.</p>
+                        <h5>24/7 Support</h5>
+                        <p>Round-the-clock assistance when you need it</p>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="feature-card glass-card h-100">
-                        <div class="feature-icon">
-                            <i class="bi bi-graph-up-arrow"></i>
+                <div class="col-md-6 col-lg-3">
+                    <div class="trust-card-tropical">
+                        <div class="trust-icon-tropical">
+                            <i class="bi bi-star-fill"></i>
                         </div>
-                        <h4>Smart Stats</h4>
-                        <p>Revenue breakdown, booking trends, and payment status tracking built-in.</p>
+                        <h5>5-Star Rated</h5>
+                        <p>Consistently excellent customer reviews</p>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="feature-card glass-card h-100">
-                        <div class="feature-icon accent">
-                            <i class="bi bi-search"></i>
+                <div class="col-md-6 col-lg-3">
+                    <div class="trust-card-tropical">
+                        <div class="trust-icon-tropical">
+                            <i class="bi bi-award"></i>
                         </div>
-                        <h4>Instant Search</h4>
-                        <p>Find any booking, customer, or tour in milliseconds with smart filtering.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="feature-card glass-card h-100">
-                        <div class="feature-icon">
-                            <i class="bi bi-person-lines-fill"></i>
-                        </div>
-                        <h4>Customer Profiles</h4>
-                        <p>Complete booking history, contact info, and notes for every traveler.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="feature-card glass-card h-100">
-                        <div class="feature-icon accent">
-                            <i class="bi bi-cloud-arrow-up"></i>
-                        </div>
-                        <h4>REST API</h4>
-                        <p>Modern API backend ready for integrations, mobile apps, or custom frontends.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Workflow Section -->
-    <section id="workflow" class="section-padding">
-        <div class="container">
-            <div class="section-header text-center">
-                <span class="section-badge">Workflow</span>
-                <h2 class="section-title">How It Works</h2>
-                <p class="section-subtitle">
-                    From inquiry to confirmation in three simple steps
-                </p>
-            </div>
-            
-            <div class="workflow-timeline">
-                <div class="row g-4">
-                    <div class="col-lg-4">
-                        <div class="workflow-step glass-card">
-                            <div class="step-number">1</div>
-                            <div class="step-icon">
-                                <i class="bi bi-plus-circle"></i>
-                            </div>
-                            <h4>Create Booking</h4>
-                            <p>Select tour, customer, dates, and guest count. The system checks capacity automatically.</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="workflow-step glass-card">
-                            <div class="step-number">2</div>
-                            <div class="step-icon">
-                                <i class="bi bi-credit-card"></i>
-                            </div>
-                            <h4>Track Payment</h4>
-                            <p>Mark payments as unpaid, partial, or paid. Revenue stats update instantly.</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="workflow-step glass-card">
-                            <div class="step-number">3</div>
-                            <div class="step-icon">
-                                <i class="bi bi-check2-all"></i>
-                            </div>
-                            <h4>Confirm & Go</h4>
-                            <p>Update status to confirmed. Dashboard shows live tour capacity and revenue collected.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Tech Stack Section -->
-    <section id="tech" class="section-padding">
-        <div class="container">
-            <div class="section-header text-center">
-                <span class="section-badge">Under the Hood</span>
-                <h2 class="section-title">Built With Modern Tech</h2>
-                <p class="section-subtitle">
-                    Simple, proven technologies that just work
-                </p>
-            </div>
-            
-            <div class="row g-4 justify-content-center mt-4">
-                <div class="col-6 col-md-3">
-                    <div class="tech-card glass-card text-center">
-                        <div class="tech-icon">
-                            <i class="bi bi-filetype-php"></i>
-                        </div>
-                        <h5>PHP 8+</h5>
-                        <p>Backend API</p>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3">
-                    <div class="tech-card glass-card text-center">
-                        <div class="tech-icon">
-                            <i class="bi bi-database"></i>
-                        </div>
-                        <h5>MySQL</h5>
-                        <p>Data Storage</p>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3">
-                    <div class="tech-card glass-card text-center">
-                        <div class="tech-icon">
-                            <i class="bi bi-braces"></i>
-                        </div>
-                        <h5>REST API</h5>
-                        <p>Clean Endpoints</p>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3">
-                    <div class="tech-card glass-card text-center">
-                        <div class="tech-icon">
-                            <i class="bi bi-bootstrap"></i>
-                        </div>
-                        <h5>Bootstrap 5</h5>
-                        <p>Responsive UI</p>
+                        <h5>Local Experts</h5>
+                        <p>Years of experience serving the islands</p>
                     </div>
                 </div>
             </div>
@@ -402,44 +310,164 @@
     </section>
 
     <!-- Final CTA Section -->
-    <section id="cta" class="section-padding cta-section">
+    <section id="cta" class="section-padding-tropical cta-section-tropical">
         <div class="container">
-            <div class="cta-card glass-card text-center">
-                <h2 class="cta-title">Ready to Take Control?</h2>
-                <p class="cta-subtitle">
-                    Open the dashboard and see your tour operations with crystal clarity.
+            <div class="cta-card-tropical">
+                <h2 class="cta-title-tropical">Ready to Start Your Adventure?</h2>
+                <p class="cta-subtitle-tropical">
+                    Book your rental, tour, or shuttle service today and experience the islands like never before.
                 </p>
-                <a href="index.html" class="btn btn-primary btn-lg btn-glow">
-                    <i class="bi bi-speedometer2 me-2"></i>Launch Dashboard
-                </a>
+                <div class="cta-buttons">
+                    <a href="#hero" class="btn btn-primary-tropical btn-lg btn-glow-tropical">
+                        <i class="bi bi-calendar-check me-2"></i>Book Now
+                    </a>
+                    <a href="#contact" class="btn btn-outline-tropical btn-lg">
+                        <i class="bi bi-telephone me-2"></i>Contact Us
+                    </a>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="landing-footer">
+    <footer class="landing-footer-tropical" id="contact">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <div class="footer-brand">
-                        <i class="bi bi-airplane-engines me-2"></i>
-                        <span>RTS</span> — Rufbac Tour System
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="footer-brand-tropical">
+                        <i class="bi bi-geo-alt-fill me-2"></i>
+                        <span>Ruf Bac Tour Services</span>
                     </div>
-                    <p class="footer-text">Air Traffic Control for Tours</p>
+                    <p class="footer-text-tropical">
+                        Your trusted partner for premium car rentals, unforgettable island tours, and reliable shuttle services.
+                    </p>
                 </div>
-                <div class="col-md-6 text-md-end">
-                    <p class="footer-version">v1.0.0 • REST API Powered</p>
-                    <p class="footer-copy">&copy; 2025 RTS. Built for precision.</p>
+                <div class="col-md-4">
+                    <h5 class="footer-heading-tropical">Quick Links</h5>
+                    <ul class="footer-links-tropical">
+                        <li><a href="#destinations">Destinations</a></li>
+                        <li><a href="#fleet">Our Fleet</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#hero">Book Now</a></li>
+                    </ul>
                 </div>
+                <div class="col-md-4">
+                    <h5 class="footer-heading-tropical">Contact</h5>
+                    <ul class="footer-contact-tropical">
+                        <li><i class="bi bi-telephone"></i> +1 (555) 123-4567</li>
+                        <li><i class="bi bi-envelope"></i> info@rufbactours.com</li>
+                        <li><i class="bi bi-geo-alt"></i> Island Paradise, Caribbean</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom-tropical">
+                <p>&copy; 2025 Ruf Bac Tour Services. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs mb-3" id="authTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login-tab-pane" type="button" role="tab">
+                                Login
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register-tab-pane" type="button" role="tab">
+                                Register
+                            </button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="authTabContent">
+                        <!-- Login Form -->
+                        <div class="tab-pane fade show active" id="login-tab-pane" role="tabpanel">
+                            <form id="loginForm">
+                                <div class="mb-3">
+                                    <label for="loginEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control form-control-glass" id="loginEmail" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="loginPassword" class="form-label">Password</label>
+                                    <input type="password" class="form-control form-control-glass" id="loginPassword" required>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary-tropical">
+                                        <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- Register Form -->
+                        <div class="tab-pane fade" id="register-tab-pane" role="tabpanel">
+                            <form id="registerForm">
+                                <div class="mb-3">
+                                    <label for="registerEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control form-control-glass" id="registerEmail" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="registerPassword" class="form-label">Password</label>
+                                    <input type="password" class="form-control form-control-glass" id="registerPassword" required minlength="6">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="registerPasswordConfirm" class="form-label">Confirm Password</label>
+                                    <input type="password" class="form-control form-control-glass" id="registerPasswordConfirm" required>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary-tropical">
+                                        <i class="bi bi-person-plus me-2"></i>Register
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="authMessage" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     
+    <!-- API Service -->
+    <script src="assets/js/api.js"></script>
+    
+    <!-- Landing Page Dynamic Content Loader -->
+    <script src="assets/js/landing.js"></script>
+    
+    <!-- Auth Script -->
+    <script src="assets/js/auth.js"></script>
+    
     <!-- Landing Page JS -->
     <script>
+        // Service Toggle Functionality
+        document.querySelectorAll('.service-toggle').forEach(button => {
+            button.addEventListener('click', function() {
+                const service = this.dataset.service;
+                
+                // Update active toggle
+                document.querySelectorAll('.service-toggle').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show/hide forms
+                document.querySelectorAll('.service-form').forEach(form => {
+                    form.classList.remove('active');
+                });
+                document.querySelector(`.service-form[data-form="${service}"]`).classList.add('active');
+            });
+        });
+
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -467,13 +495,27 @@
             }
         });
 
-        // Track dashboard button clicks
-        document.querySelectorAll('a[href="index.html"]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                console.log('[Landing] Opening Dashboard...');
-            });
+        // Booking form submission
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Scroll to top to show booking widget
+            document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
+            // Here you would typically send the form data to your backend
+            alert('Thank you! We will check availability and contact you shortly.');
+        });
+
+        // Scroll to booking widget when "Book Now" is clicked
+        document.getElementById('bookNowNavBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
+            // Focus on booking widget after scroll
+            setTimeout(() => {
+                document.querySelector('.booking-widget-glass').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }, 500);
         });
     </script>
 </body>
 </html>
-

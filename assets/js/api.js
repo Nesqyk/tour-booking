@@ -333,6 +333,235 @@ const API = (() => {
     }
     
     // =========================================
+    // SERVICE ENDPOINTS
+    // =========================================
+    
+    /**
+     * Fetch all services, optionally filtered by type
+     * GET /api/services?type={rental|tour|shuttle}
+     */
+    async function fetchServices(type = null) {
+        const params = type ? { type } : {};
+        return request('/services', { params });
+    }
+    
+    /**
+     * Fetch a single service by ID
+     * GET /api/services/{id}
+     */
+    async function fetchService(id) {
+        return request(`/services/${id}`);
+    }
+    
+    /**
+     * Create a new service
+     * POST /api/services
+     */
+    async function createService(data) {
+        return request('/services', { method: 'POST', body: data });
+    }
+    
+    /**
+     * Update a service
+     * PUT /api/services/{id}
+     */
+    async function updateService(id, data) {
+        return request(`/services/${id}`, { method: 'PUT', body: data });
+    }
+    
+    /**
+     * Delete a service
+     * DELETE /api/services/{id}
+     */
+    async function deleteService(id) {
+        return request(`/services/${id}`, { method: 'DELETE' });
+    }
+    
+    // =========================================
+    // DESTINATION ENDPOINTS
+    // =========================================
+    
+    /**
+     * Fetch all destinations, optionally filtered by featured
+     * GET /api/destinations?featured=true
+     */
+    async function fetchDestinations(featuredOnly = false) {
+        const params = featuredOnly ? { featured: 'true' } : {};
+        return request('/destinations', { params });
+    }
+    
+    /**
+     * Fetch a single destination by ID
+     * GET /api/destinations/{id}
+     */
+    async function fetchDestination(id) {
+        return request(`/destinations/${id}`);
+    }
+    
+    /**
+     * Create a new destination
+     * POST /api/destinations
+     */
+    async function createDestination(data) {
+        return request('/destinations', { method: 'POST', body: data });
+    }
+    
+    /**
+     * Update a destination
+     * PUT /api/destinations/{id}
+     */
+    async function updateDestination(id, data) {
+        return request(`/destinations/${id}`, { method: 'PUT', body: data });
+    }
+    
+    /**
+     * Delete a destination
+     * DELETE /api/destinations/{id}
+     */
+    async function deleteDestination(id) {
+        return request(`/destinations/${id}`, { method: 'DELETE' });
+    }
+    
+    // =========================================
+    // FLEET ENDPOINTS
+    // =========================================
+    
+    /**
+     * Fetch all fleet vehicles, optionally filtered by featured
+     * GET /api/fleet?featured=true
+     */
+    async function fetchFleet(featuredOnly = false) {
+        const params = featuredOnly ? { featured: 'true' } : {};
+        return request('/fleet', { params });
+    }
+    
+    /**
+     * Fetch a single fleet vehicle by ID
+     * GET /api/fleet/{id}
+     */
+    async function fetchFleetVehicle(id) {
+        return request(`/fleet/${id}`);
+    }
+    
+    /**
+     * Create a new fleet vehicle
+     * POST /api/fleet
+     */
+    async function createFleet(data) {
+        return request('/fleet', { method: 'POST', body: data });
+    }
+    
+    /**
+     * Update a fleet vehicle
+     * PUT /api/fleet/{id}
+     */
+    async function updateFleet(id, data) {
+        return request(`/fleet/${id}`, { method: 'PUT', body: data });
+    }
+    
+    /**
+     * Delete a fleet vehicle
+     * DELETE /api/fleet/{id}
+     */
+    async function deleteFleet(id) {
+        return request(`/fleet/${id}`, { method: 'DELETE' });
+    }
+    
+    // =========================================
+    // IMAGE UPLOAD
+    // =========================================
+    
+    /**
+     * Upload an image file
+     * POST /api/upload.php
+     * @param {File} file - File object from input
+     * @param {string} type - 'services', 'destinations', or 'fleet'
+     * @returns {Promise<Object>} Response with image path
+     */
+    async function uploadImage(file, type) {
+        if (!file || !(file instanceof File)) {
+            throw new Error('Invalid file provided');
+        }
+        
+        if (!['services', 'destinations', 'fleet'].includes(type)) {
+            throw new Error('Invalid type. Must be: services, destinations, or fleet');
+        }
+        
+        const formData = new FormData();
+        formData.append('image', file);
+        formData.append('type', type);
+        
+        const url = `${BASE_PATH}/api/upload.php`;
+        
+        try {
+            debugLog('Uploading image:', file.name, 'to', type);
+            
+            const response = await fetch(url, {
+                method: 'POST',
+                body: formData
+            });
+            
+            debugLog('Upload Response Status:', response.status);
+            
+            const result = await response.json();
+            
+            if (!response.ok || !result.success) {
+                throw new APIError(
+                    result.error || 'Upload failed',
+                    response.status,
+                    result
+                );
+            }
+            
+            debugLog('Upload successful:', result);
+            return result;
+            
+        } catch (error) {
+            debugError('Upload error:', error);
+            if (error instanceof APIError) {
+                throw error;
+            }
+            throw new APIError('Upload failed: ' + error.message, 0, null, error);
+        }
+    }
+    
+    // =========================================
+    // AUTHENTICATION ENDPOINTS
+    // =========================================
+    
+    /**
+     * Register a new user
+     * POST /api/auth/register
+     */
+    async function register(data) {
+        return request('/auth/register', { method: 'POST', body: data });
+    }
+    
+    /**
+     * Login user
+     * POST /api/auth/login
+     */
+    async function login(data) {
+        return request('/auth/login', { method: 'POST', body: data });
+    }
+    
+    /**
+     * Logout user
+     * POST /api/auth/logout
+     */
+    async function logout() {
+        return request('/auth/logout', { method: 'POST' });
+    }
+    
+    /**
+     * Get current user
+     * GET /api/auth/me
+     */
+    async function getCurrentUser() {
+        return request('/auth/me');
+    }
+    
+    // =========================================
     // PUBLIC API
     // =========================================
     
@@ -363,6 +592,36 @@ const API = (() => {
         createCustomer,
         updateCustomer,
         deleteCustomer,
-        searchCustomers
+        searchCustomers,
+        
+        // Services
+        fetchServices,
+        fetchService,
+        createService,
+        updateService,
+        deleteService,
+        
+        // Destinations
+        fetchDestinations,
+        fetchDestination,
+        createDestination,
+        updateDestination,
+        deleteDestination,
+        
+        // Fleet
+        fetchFleet,
+        fetchFleetVehicle,
+        createFleet,
+        updateFleet,
+        deleteFleet,
+        
+        // Image Upload
+        uploadImage,
+        
+        // Authentication
+        register,
+        login,
+        logout,
+        getCurrentUser
     };
 })();
