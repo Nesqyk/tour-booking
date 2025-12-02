@@ -86,9 +86,13 @@ if (isset($segments[1])) {
 
 // Map resources to controllers
 $controllerMap = [
-    'bookings'  => 'BookingController',
-    'tours'     => 'TourController',
-    'customers' => 'CustomerController'
+    'bookings'     => 'BookingController',
+    'tours'        => 'TourController',
+    'customers'    => 'CustomerController',
+    'services'     => 'ServiceController',
+    'destinations' => 'DestinationController',
+    'fleet'        => 'FleetController',
+    'auth'         => 'AuthController'
 ];
 
 // REST method to controller method mapping
@@ -116,6 +120,12 @@ $restMethodMap = [
 $customActions = [
     'bookings' => [
         'stats' => ['method' => 'GET', 'handler' => 'stats']
+    ],
+    'auth' => [
+        'register' => ['method' => 'POST', 'handler' => 'register'],
+        'login' => ['method' => 'POST', 'handler' => 'login'],
+        'logout' => ['method' => 'POST', 'handler' => 'logout'],
+        'me' => ['method' => 'GET', 'handler' => 'me']
     ]
 ];
 
@@ -125,11 +135,11 @@ $customActions = [
 
 // Validate resource
 if (!$resource) {
-    sendErrorResponse('API endpoint required. Available: /api/bookings, /api/tours, /api/customers', 400);
+    sendErrorResponse('API endpoint required. Available: /api/bookings, /api/tours, /api/customers, /api/services, /api/destinations, /api/fleet, /api/auth', 400);
 }
 
 if (!isset($controllerMap[$resource])) {
-    sendErrorResponse("Unknown resource: {$resource}. Available: bookings, tours, customers", 404);
+    sendErrorResponse("Unknown resource: {$resource}. Available: bookings, tours, customers, services, destinations, fleet, auth", 404);
 }
 
 // Load the controller
