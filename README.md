@@ -58,10 +58,12 @@ A complete tour booking platform with public landing page and admin dashboard. B
 
 3. **Setup database**:
    - Open phpMyAdmin: http://localhost/phpmyadmin
-   - Run `database/schema.sql` (creates database and core tables)
-   - Run `database/schema_auth.sql` (creates users table)
-   - Run `database/schema_landing.sql` (creates landing page tables)
-   - Run seed files: `database/seed.sql`, `database/seed_auth.sql`, `database/seed_landing.sql`
+   - Run `database/init.sql` (creates database, all tables, and seeds initial data)
+   
+   **Or via command line:**
+   ```bash
+   mysql\bin\mysql -u root < C:\xampp\htdocs\tour-booking\database\init.sql
+   ```
 
 4. **Configure database** (if needed):
    Edit `backend/config/Database.php`:
@@ -92,7 +94,8 @@ tour-booking/
 │   ├── models/               # Data models (Booking, Tour, Customer, User, etc.)
 │   ├── controllers/          # Request handlers
 │   └── api/                  # API router & endpoints
-└── database/                 # SQL schemas and seeds
+└── database/
+    └── init.sql              # Complete database setup (schema + seed data)
 ```
 
 ---
@@ -125,7 +128,7 @@ Base URL: `http://localhost/tour-booking/backend/api/index.php`
 **Landing Page**: `services`, `destinations`, `fleet`  
 **Authentication**: `users`
 
-See `database/schema*.sql` files for complete structure.
+See `database/init.sql` for complete database structure and seed data.
 
 ---
 
@@ -134,7 +137,7 @@ See `database/schema*.sql` files for complete structure.
 - **Database connection failed**: Ensure MySQL is running, check `backend/config/Database.php`
 - **CORS errors**: Access via `http://localhost/` not `file://`
 - **Blank page**: Check PHP error logs, ensure Apache is running
-- **Tables missing**: Run all schema files in order
+- **Tables missing**: Run `database/init.sql` to create all tables and seed data
 
 ---
 
