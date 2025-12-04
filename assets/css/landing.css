@@ -80,6 +80,14 @@
     border-radius: 10px;
     color: white;
     font-size: 1.25rem;
+    overflow: hidden;
+}
+
+.tropical-landing .brand-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
 }
 
 .tropical-landing .brand-text {
@@ -136,7 +144,20 @@
     bottom: 0;
     z-index: 0;
     background: linear-gradient(135deg, var(--deep-cyan) 0%, var(--ocean-teal) 30%, var(--soft-teal) 60%, var(--light-teal) 100%);
-    animation: gentle-wave 20s ease-in-out infinite;
+    overflow: hidden;
+}
+
+.hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    z-index: 0;
 }
 
 .hero-background-composite::before {
@@ -145,9 +166,10 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 40%;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), transparent);
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0, 107, 125, 0.4), rgba(0, 107, 125, 0.2), transparent);
     z-index: 1;
+    pointer-events: none;
 }
 
 .hero-background-composite::after {
@@ -156,10 +178,10 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 30%;
-    background: linear-gradient(to top, var(--sand-beige), transparent);
-    opacity: 0.3;
+    height: 40%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.3), transparent);
     z-index: 1;
+    pointer-events: none;
 }
 
 @keyframes gentle-wave {
@@ -369,6 +391,187 @@
 .form-control-glass option {
     background: var(--deep-cyan);
     color: white;
+}
+
+/* Price Preview */
+.price-preview {
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.price-preview #priceAmount {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-bold);
+    color: white;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.price-preview #priceBreakdown {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.85rem;
+}
+
+/* =========================================
+   Availability Results
+   ========================================= */
+.availability-result-container {
+    margin-top: 1.5rem;
+    animation: fadeIn 0.3s ease;
+}
+
+.availability-result {
+    padding: 1.5rem;
+    border-radius: 15px;
+    text-align: center;
+    animation: slideIn 0.4s ease;
+}
+
+.availability-result i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.availability-result h4 {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 0.75rem;
+    color: white;
+}
+
+.availability-result p {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.availability-result .price-display {
+    font-size: 2rem;
+    font-weight: var(--font-weight-extrabold);
+    color: white;
+    margin: 1rem 0;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+}
+
+.availability-result .price-display small {
+    font-size: 0.9rem;
+    font-weight: var(--font-weight-normal);
+    opacity: 0.8;
+    display: block;
+    margin-top: 0.25rem;
+}
+
+.availability-result.success {
+    background: rgba(78, 205, 196, 0.2);
+    border: 2px solid rgba(78, 205, 196, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.availability-result.success i {
+    color: var(--soft-teal);
+}
+
+.availability-result.warning {
+    background: rgba(255, 140, 66, 0.2);
+    border: 2px solid rgba(255, 140, 66, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.availability-result.warning i {
+    color: #FF8C42;
+}
+
+.availability-result.error {
+    background: rgba(230, 57, 70, 0.2);
+    border: 2px solid rgba(230, 57, 70, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.availability-result.error i {
+    color: #E63946;
+}
+
+.availability-result .result-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.availability-result .result-actions .btn {
+    flex: 1;
+    min-width: 150px;
+}
+
+.availability-loading {
+    text-align: center;
+    padding: 2rem;
+    color: white;
+}
+
+.availability-loading .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    border-width: 0.3rem;
+}
+
+.availability-loading p {
+    margin-top: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+}
+
+/* Modal Result Styles */
+.availability-result-modal {
+    padding: 1rem 0;
+    animation: fadeIn 0.3s ease;
+}
+
+.availability-result-modal h4 {
+    font-size: 1.75rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.availability-result-modal p {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.price-display-modal {
+    padding: 1.5rem;
+    background: rgba(0, 107, 125, 0.05);
+    border-radius: 12px;
+    border: 2px solid rgba(0, 107, 125, 0.1);
+}
+
+.tour-info-card {
+    text-align: left;
+}
+
+.tour-info-card h5 {
+    color: var(--deep-cyan);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 0.5rem;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* =========================================
@@ -904,6 +1107,166 @@
 }
 
 /* =========================================
+   Destination Detail Modal
+   ========================================= */
+.destination-modal-hero {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.destination-modal-hero img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.destination-modal-hero:hover img {
+    transform: scale(1.02);
+}
+
+.destination-modal-hero-placeholder {
+    background: linear-gradient(135deg, var(--ocean-teal), var(--soft-teal));
+    color: white;
+}
+
+.destination-modal-description h4,
+.destination-modal-features h4,
+.destination-modal-tours h4 {
+    font-size: 1.25rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--ocean-teal);
+}
+
+.destination-modal-description p {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    font-size: 1rem;
+}
+
+.destination-feature-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem;
+    background: rgba(0, 107, 125, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(0, 107, 125, 0.1);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.destination-feature-card:hover {
+    background: rgba(0, 107, 125, 0.1);
+    border-color: var(--ocean-teal);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 107, 125, 0.15);
+}
+
+.destination-feature-card .feature-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--deep-cyan), var(--ocean-teal));
+    border-radius: 12px;
+    color: white;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.destination-feature-card .feature-content h6 {
+    font-size: 0.9rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.destination-feature-card .feature-content p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin: 0;
+    font-weight: var(--font-weight-medium);
+}
+
+.destination-tour-card {
+    padding: 1.5rem;
+    background: var(--pure-white);
+    border: 1px solid rgba(0, 107, 125, 0.1);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.destination-tour-card:hover {
+    border-color: var(--ocean-teal);
+    box-shadow: 0 4px 20px rgba(0, 107, 125, 0.15);
+    transform: translateY(-2px);
+}
+
+.destination-tour-card h6 {
+    font-size: 1.1rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.destination-tour-card .tour-price {
+    text-align: right;
+}
+
+.destination-tour-card .tour-price .h5 {
+    color: var(--deep-cyan);
+    font-weight: var(--font-weight-bold);
+    margin: 0;
+}
+
+.destination-tour-card .tour-price small {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.destination-modal-tours {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(0, 107, 125, 0.1);
+}
+
+#destinationModalNoTours {
+    padding: 3rem 1rem;
+}
+
+#destinationModalNoTours i {
+    color: var(--text-muted);
+    opacity: 0.5;
+}
+
+#destinationModalNoTours p {
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* Modal Loading and Error States */
+#destinationModalLoading,
+#destinationModalError {
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#destinationModalError i {
+    color: var(--sunset-orange);
+}
+
+/* =========================================
    Responsive Design
    ========================================= */
 @media (max-width: 991.98px) {
@@ -964,5 +1327,27 @@
     
     .cta-buttons .btn {
         width: 100%;
+    }
+    
+    /* Destination Modal Responsive */
+    .destination-modal-hero {
+        margin-bottom: 1.5rem;
+    }
+    
+    .destination-feature-card {
+        margin-bottom: 1rem;
+    }
+    
+    .destination-tour-card .row {
+        flex-direction: column;
+    }
+    
+    .destination-tour-card .col-md-4 {
+        text-align: left !important;
+        margin-top: 1rem;
+    }
+    
+    .destination-tour-card .tour-price {
+        text-align: left;
     }
 }

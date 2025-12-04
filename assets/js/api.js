@@ -279,6 +279,24 @@ const API = (() => {
     }
     
     // =========================================
+    // AVAILABILITY ENDPOINTS
+    // =========================================
+    
+    /**
+     * Check availability for a service
+     * POST /api/availability/check
+     * @param {Object} data - Availability check data
+     * @param {string} data.service_type - Service type: 'tours', 'rentals', or 'shuttles'
+     * @param {number} data.tour_id - Tour ID (for tours)
+     * @param {number} data.num_guests - Number of guests
+     * @param {string} [data.date] - Date (optional for Phase 1)
+     * @returns {Promise<Object>} Availability result
+     */
+    async function checkAvailability(data) {
+        return request('/availability/check', { method: 'POST', body: data });
+    }
+    
+    // =========================================
     // CUSTOMER ENDPOINTS
     // =========================================
     
@@ -396,6 +414,14 @@ const API = (() => {
      */
     async function fetchDestination(id) {
         return request(`/destinations/${id}`);
+    }
+    
+    /**
+     * Fetch tours for a specific destination
+     * GET /api/destinations/{id}/tours
+     */
+    async function fetchDestinationTours(destinationId) {
+        return request(`/destinations/${destinationId}/tours`);
     }
     
     /**
@@ -586,6 +612,9 @@ const API = (() => {
         updateTour,
         deleteTour,
         
+        // Availability
+        checkAvailability,
+        
         // Customers
         fetchCustomers,
         fetchCustomer,
@@ -604,6 +633,7 @@ const API = (() => {
         // Destinations
         fetchDestinations,
         fetchDestination,
+        fetchDestinationTours,
         createDestination,
         updateDestination,
         deleteDestination,

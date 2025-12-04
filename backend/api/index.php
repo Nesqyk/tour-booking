@@ -92,7 +92,8 @@ $controllerMap = [
     'services'     => 'ServiceController',
     'destinations' => 'DestinationController',
     'fleet'        => 'FleetController',
-    'auth'         => 'AuthController'
+    'auth'         => 'AuthController',
+    'availability' => 'AvailabilityController'
 ];
 
 // REST method to controller method mapping
@@ -121,11 +122,20 @@ $customActions = [
     'bookings' => [
         'stats' => ['method' => 'GET', 'handler' => 'stats']
     ],
+    'customers' => [
+        'stats' => ['method' => 'GET', 'handler' => 'stats']
+    ],
+    'destinations' => [
+        'tours' => ['method' => 'GET', 'handler' => 'tours']
+    ],
     'auth' => [
         'register' => ['method' => 'POST', 'handler' => 'register'],
         'login' => ['method' => 'POST', 'handler' => 'login'],
         'logout' => ['method' => 'POST', 'handler' => 'logout'],
         'me' => ['method' => 'GET', 'handler' => 'me']
+    ],
+    'availability' => [
+        'check' => ['method' => 'POST', 'handler' => 'check']
     ]
 ];
 
@@ -135,7 +145,7 @@ $customActions = [
 
 // Validate resource
 if (!$resource) {
-    sendErrorResponse('API endpoint required. Available: /api/bookings, /api/tours, /api/customers, /api/services, /api/destinations, /api/fleet, /api/auth', 400);
+    sendErrorResponse('API endpoint required. Available: /api/bookings, /api/tours, /api/customers, /api/services, /api/destinations, /api/fleet, /api/auth, /api/availability', 400);
 }
 
 if (!isset($controllerMap[$resource])) {

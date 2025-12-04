@@ -29,7 +29,7 @@
         <div class="container px-4">
             <a class="navbar-brand d-flex align-items-center" href="#">
                 <div class="brand-icon me-2">
-                    <i class="bi bi-geo-alt-fill"></i>
+                    <img src="assets/images/logo.jpg" alt="Ruf Bac Tour Services" class="brand-logo-img">
                 </div>
                 <div>
                     <span class="brand-text">Ruf Bac</span>
@@ -73,7 +73,12 @@
 
     <!-- Hero Section -->
     <section id="hero" class="hero-section-tropical">
-        <div class="hero-background-composite"></div>
+        <div class="hero-background-composite">
+            <video class="hero-video" autoplay muted loop playsinline>
+                <source src="assets/video/hero-video.mp4" type="video/mp4">
+                <!-- Fallback gradient if video fails to load -->
+            </video>
+        </div>
         <div class="container">
             <div class="row align-items-center min-vh-100">
                 <div class="col-lg-6">
@@ -156,20 +161,24 @@
                             <div class="service-form" data-form="tours">
                                 <div class="form-group-glass">
                                     <label>Destination</label>
-                                    <select class="form-control-glass">
-                                        <option>Select destination...</option>
-                                        <option>Island Paradise Tour</option>
-                                        <option>Coastal Adventure</option>
-                                        <option>Cultural Discovery</option>
+                                    <select class="form-control-glass" id="tourSelect" required>
+                                        <option value="">Select destination...</option>
                                     </select>
                                 </div>
                                 <div class="form-group-glass">
                                     <label>Tour Date</label>
-                                    <input type="date" class="form-control-glass">
+                                    <input type="date" class="form-control-glass" id="tourDate" required>
                                 </div>
                                 <div class="form-group-glass">
                                     <label>Number of Guests</label>
-                                    <input type="number" class="form-control-glass" min="1" max="20" value="2">
+                                    <input type="number" class="form-control-glass" id="numGuests" min="1" max="20" value="2" required>
+                                </div>
+                                <div class="form-group-glass" id="pricePreview" style="display: none;">
+                                    <label>Estimated Total</label>
+                                    <div class="price-preview">
+                                        <span id="priceAmount">$0.00</span>
+                                        <small class="text-muted" id="priceBreakdown"></small>
+                                    </div>
                                 </div>
                             </div>
                             <!-- Shuttles Form -->
@@ -191,7 +200,7 @@
                                     <input type="number" class="form-control-glass" min="1" max="15" value="1">
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary-tropical btn-block">
+                            <button type="submit" class="btn btn-primary-tropical btn-block" id="checkAvailabilityBtn">
                                 <i class="bi bi-search me-2"></i>Check Availability
                             </button>
                         </form>
@@ -437,6 +446,106 @@
         </div>
     </div>
 
+    <!-- Availability Check Modal -->
+    <div class="modal fade" id="availabilityModal" tabindex="-1" aria-labelledby="availabilityModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content glass-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="availabilityModalLabel">
+                        <i class="bi bi-search me-2"></i>Check Availability
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="availabilityModalBody">
+                    <!-- Loading State -->
+                    <div class="text-center py-5" id="availabilityModalLoading" style="display: none;">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Checking availability...</span>
+                        </div>
+                        <p class="mt-3 text-muted">Checking availability...</p>
+                    </div>
+                    
+                    <!-- Result Content (populated dynamically) -->
+                    <div id="availabilityModalResult" style="display: none;">
+                        <!-- Results will be inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Destination Detail Modal -->
+    <div class="modal fade" id="destinationDetailModal" tabindex="-1" aria-labelledby="destinationDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content glass-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="destinationDetailModalLabel">
+                        <i class="bi bi-geo-alt me-2"></i><span id="destinationModalTitle">Destination Details</span>
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="destinationModalBody">
+                    <!-- Loading State -->
+                    <div class="text-center py-5" id="destinationModalLoading">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-3 text-muted">Loading destination details...</p>
+                    </div>
+                    
+                    <!-- Content (populated dynamically) -->
+                    <div id="destinationModalContent" class="d-none">
+                        <!-- Hero Image Section -->
+                        <div class="destination-modal-hero mb-4" id="destinationModalHero">
+                            <!-- Image will be inserted here -->
+                        </div>
+                        
+                        <!-- Description Section -->
+                        <div class="destination-modal-description mb-4">
+                            <h4 class="mb-3">About This Destination</h4>
+                            <p id="destinationModalDescription" class="text-muted"></p>
+                        </div>
+                        
+                        <!-- Features Grid -->
+                        <div class="destination-modal-features mb-4">
+                            <h4 class="mb-3">Key Features</h4>
+                            <div class="row g-3" id="destinationModalFeatures">
+                                <!-- Features will be inserted here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Related Tours Section -->
+                        <div class="destination-modal-tours">
+                            <h4 class="mb-3">Available Tours</h4>
+                            <div id="destinationModalTours">
+                                <!-- Tours will be inserted here -->
+                            </div>
+                            <div class="text-center text-muted py-3 d-none" id="destinationModalNoTours">
+                                <i class="bi bi-calendar-x d-block mb-2" style="font-size: 2rem;"></i>
+                                <p>No tours available for this destination at the moment.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Error State -->
+                    <div class="text-center py-5 d-none" id="destinationModalError">
+                        <i class="bi bi-exclamation-triangle text-warning d-block mb-3" style="font-size: 3rem;"></i>
+                        <p class="text-muted">Failed to load destination details. Please try again later.</p>
+                        <button class="btn btn-outline-tropical mt-3" onclick="document.getElementById('destinationDetailModal').querySelector('[data-bs-dismiss]').click()">
+                            Close
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-glass" data-bs-dismiss="modal">Close</button>
+                    <a href="#hero" class="btn btn-primary-tropical" id="destinationModalBookBtn" style="display: none;">
+                        <i class="bi bi-calendar-check me-2"></i>Book Tour
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     
@@ -495,14 +604,7 @@
             }
         });
 
-        // Booking form submission
-        document.getElementById('bookingForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Scroll to top to show booking widget
-            document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
-            // Here you would typically send the form data to your backend
-            alert('Thank you! We will check availability and contact you shortly.');
-        });
+        // Form submission is now handled in landing.js
 
         // Scroll to booking widget when "Book Now" is clicked
         document.getElementById('bookNowNavBtn').addEventListener('click', function(e) {
