@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ruf Bac Tour Services - Browse and Explore Tours">
+    <title>Ruf Bac Tour Services | Browse Tours</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <!-- Google Fonts - Inter (bold, readable) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/customer-browse.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-gradient-animated"></div>
+    <div class="bg-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg glass-nav fixed-top">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center" href="customer-dashboard.html">
+                <div class="brand-icon me-2">
+                    <img src="assets/images/logo.jpg" alt="Ruf Bac Tour Services" class="brand-logo-img">
+                </div>
+                <div>
+                    <span class="brand-text">Ruf Bac</span>
+                    <small class="brand-subtitle d-none d-sm-block">Tour Services</small>
+                </div>
+            </a>
+            
+            <div class="d-flex align-items-center gap-3">
+                <a href="customer-dashboard.html" class="btn btn-glass d-none d-md-inline-flex" title="Dashboard">
+                    <i class="bi bi-speedometer2 me-1"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="landing.html" class="btn btn-glass d-none d-md-inline-flex" title="Home">
+                    <i class="bi bi-house me-1"></i>
+                    <span>Home</span>
+                </a>
+                <div class="dropdown">
+                    <button class="btn btn-glass dropdown-toggle" type="button" id="userMenuBtn" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle me-1"></i>
+                        <span id="userEmail">Loading...</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="customer-dashboard.html"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+                        <li><a class="dropdown-item" href="#" id="viewProfileBtn"><i class="bi bi-person me-2"></i>View Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="#" id="logoutBtn"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content browse-tours-page">
+        <div class="container-fluid px-4">
+            
+            <!-- Page Header -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb" class="mb-3">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="customer-dashboard.html">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Browse Tours</li>
+                        </ol>
+                    </nav>
+                    
+                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                        <div>
+                            <h1 class="page-title mb-1">Browse Tours</h1>
+                            <p class="page-subtitle mb-0">Discover amazing destinations and book your next adventure</p>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-glass" id="viewModeToggle" title="Toggle View">
+                                <i class="bi bi-grid-3x3-gap" id="viewModeIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="search-container">
+                        <i class="bi bi-search search-icon"></i>
+                        <input type="text" class="form-control form-control-glass search-input" 
+                               id="searchInput" placeholder="Search tours by destination or description...">
+                        <button class="btn btn-glass search-clear d-none" id="searchClearBtn">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Row -->
+            <div class="row g-4">
+                <!-- Filter Sidebar -->
+                <div class="col-lg-3">
+                    <div class="glass-card filter-sidebar" id="filterSidebar">
+                        <div class="filter-header d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="mb-0">
+                                <i class="bi bi-funnel me-2"></i>Filters
+                            </h5>
+                            <button class="btn btn-sm btn-glass" id="clearAllFiltersBtn" style="display: none;">
+                                Clear All
+                            </button>
+                        </div>
+
+                        <!-- Destination Filter -->
+                        <div class="filter-section mb-4">
+                            <h6 class="filter-title">Destination</h6>
+                            <div class="filter-options" id="destinationFilter">
+                                <!-- Populated dynamically -->
+                                <div class="text-muted small">Loading destinations...</div>
+                            </div>
+                        </div>
+
+                        <!-- Price Range Filter -->
+                        <div class="filter-section mb-4">
+                            <h6 class="filter-title">Price Range</h6>
+                            <div class="price-inputs d-flex gap-2 mb-2">
+                                <input type="number" class="form-control form-control-glass" 
+                                       id="priceMin" placeholder="Min" min="0" step="0.01">
+                                <input type="number" class="form-control form-control-glass" 
+                                       id="priceMax" placeholder="Max" min="0" step="0.01">
+                            </div>
+                            <small class="text-muted" id="priceRangeDisplay">$0 - $∞</small>
+                        </div>
+
+                        <!-- Date Range Filter -->
+                        <div class="filter-section mb-4">
+                            <h6 class="filter-title">Travel Dates</h6>
+                            <div class="date-inputs">
+                                <label class="form-label small">From</label>
+                                <input type="date" class="form-control form-control-glass mb-2" id="dateFrom">
+                                <label class="form-label small">To</label>
+                                <input type="date" class="form-control form-control-glass" id="dateTo">
+                            </div>
+                        </div>
+
+                        <!-- Duration Filter -->
+                        <div class="filter-section mb-4">
+                            <h6 class="filter-title">Duration</h6>
+                            <div class="filter-options" id="durationFilter">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="durationHalfDay" value="half">
+                                    <label class="form-check-label" for="durationHalfDay">Half Day (&lt; 8 hours)</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="durationFullDay" value="full">
+                                    <label class="form-check-label" for="durationFullDay">Full Day (8-24 hours)</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="durationMultiDay" value="multi">
+                                    <label class="form-check-label" for="durationMultiDay">Multi-day (&gt; 24 hours)</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Capacity Filter -->
+                        <div class="filter-section mb-4">
+                            <h6 class="filter-title">Capacity</h6>
+                            <div class="capacity-inputs d-flex gap-2">
+                                <input type="number" class="form-control form-control-glass" 
+                                       id="capacityMin" placeholder="Min" min="1">
+                                <input type="number" class="form-control form-control-glass" 
+                                       id="capacityMax" placeholder="Max" min="1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Filter Toggle -->
+                    <button class="btn btn-primary-gradient w-100 d-lg-none mb-3" id="mobileFilterToggle">
+                        <i class="bi bi-funnel me-2"></i>Show Filters
+                    </button>
+                </div>
+
+                <!-- Main Content Area -->
+                <div class="col-lg-9">
+                    <!-- Toolbar -->
+                    <div class="glass-card mb-4">
+                        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <span class="text-muted" id="resultsCount">Loading tours...</span>
+                                <!-- Active Filters Chips -->
+                                <div class="filter-chips" id="activeFiltersChips"></div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <label class="text-muted small mb-0">Sort by:</label>
+                                <select class="form-select form-select-glass" id="sortSelect" style="width: auto;">
+                                    <option value="date_asc">Date: Soonest First</option>
+                                    <option value="date_desc">Date: Latest First</option>
+                                    <option value="price_asc">Price: Low to High</option>
+                                    <option value="price_desc">Price: High to Low</option>
+                                    <option value="popularity">Popularity</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Loading State -->
+                    <div class="loading-container text-center py-5" id="loadingState">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="text-muted mt-3">Loading tours...</p>
+                    </div>
+
+                    <!-- Error State -->
+                    <div class="error-container text-center py-5 d-none" id="errorState">
+                        <i class="bi bi-exclamation-triangle text-warning d-block mb-3" style="font-size: 3rem;"></i>
+                        <h5>Failed to load tours</h5>
+                        <p class="text-muted">Please try again later.</p>
+                        <button class="btn btn-primary-gradient mt-3" id="retryBtn">
+                            <i class="bi bi-arrow-clockwise me-2"></i>Retry
+                        </button>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div class="empty-container text-center py-5 d-none" id="emptyState">
+                        <i class="bi bi-calendar-x text-muted d-block mb-3" style="font-size: 3rem;"></i>
+                        <h5>No tours found</h5>
+                        <p class="text-muted">Try adjusting your filters or search terms.</p>
+                        <button class="btn btn-glass mt-3" id="clearFiltersEmptyBtn">
+                            <i class="bi bi-x-circle me-2"></i>Clear Filters
+                        </button>
+                    </div>
+
+                    <!-- Tours Grid/List Container -->
+                    <div class="tours-container" id="toursContainer">
+                        <!-- Tours will be rendered here -->
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination-wrapper mt-4 d-none" id="paginationContainer">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                            <div class="pagination-info text-muted" id="paginationInfo">
+                                Showing 1-12 of 0 tours
+                            </div>
+                            <div class="pagination-controls">
+                                <button class="btn btn-glass" id="prevPageBtn" disabled>
+                                    <i class="bi bi-chevron-left"></i> Previous
+                                </button>
+                                <div class="page-numbers d-inline-flex gap-1" id="pageNumbers"></div>
+                                <button class="btn btn-glass" id="nextPageBtn">
+                                    Next <i class="bi bi-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Tour Detail Modal (Reuse from destination explore pattern) -->
+    <div class="modal fade" id="tourDetailModal" tabindex="-1" aria-labelledby="tourDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content glass-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tourDetailModalLabel">
+                        <i class="bi bi-info-circle me-2"></i>Tour Details
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="tourDetailModalBody">
+                    <!-- Content populated dynamically -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-glass" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary-gradient" id="tourDetailBookBtn">
+                        <i class="bi bi-calendar-check me-2"></i>Book Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal (Reuse from customer-dashboard.html) -->
+    <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content glass-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bookingModalLabel">
+                        <i class="bi bi-calendar-plus me-2"></i>New Booking
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="bookingForm">
+                        <input type="hidden" id="bookingId">
+                        <input type="hidden" id="tourSelect" value="">
+                        
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label for="bookingDate" class="form-label">Booking Date *</label>
+                                <input type="date" class="form-control form-control-glass" id="bookingDate" required>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="numGuests" class="form-label">Number of Guests *</label>
+                                <input type="number" class="form-control form-control-glass" id="numGuests" 
+                                       min="1" max="20" value="1" required>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label class="form-label">Total Amount</label>
+                                <div class="alert alert-info mb-0">
+                                    <strong>$<span id="totalAmountDisplay">0.00</span></strong>
+                                    <small class="d-block mt-1">Calculated as: Tour Price × Number of Guests</small>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12">
+                                <label for="bookingNotes" class="form-label">Notes (Optional)</label>
+                                <textarea class="form-control form-control-glass" id="bookingNotes" 
+                                          rows="3" placeholder="Any special requests or notes..."></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-glass" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary-gradient" id="saveBookingBtn">
+                        <i class="bi bi-check-lg me-2"></i>Create Booking
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal (Reuse from customer-dashboard.html) -->
+    <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content glass-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="profileModalLabel">
+                        <i class="bi bi-person me-2"></i>My Profile
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="profileForm">
+                        <input type="hidden" id="customerId">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="customerFirstName" class="form-label">First Name *</label>
+                                <input type="text" class="form-control form-control-glass" id="customerFirstName" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="customerLastName" class="form-label">Last Name *</label>
+                                <input type="text" class="form-control form-control-glass" id="customerLastName" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="customerEmail" class="form-label">Email *</label>
+                                <input type="email" class="form-control form-control-glass" id="customerEmail" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="customerPhone" class="form-label">Phone</label>
+                                <input type="tel" class="form-control form-control-glass" id="customerPhone">
+                            </div>
+                            <div class="col-12">
+                                <label for="customerAddress" class="form-label">Address</label>
+                                <textarea class="form-control form-control-glass" id="customerAddress" rows="2"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-glass" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary-gradient" id="saveProfileBtn">
+                        <i class="bi bi-check-lg me-2"></i>Update Profile
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/customer-browse.js"></script>
+</body>
+</html>
+

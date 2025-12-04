@@ -63,8 +63,10 @@
                     // Redirect based on user type
                     if (response.data.user_type === 'admin') {
                         window.location.href = 'index.html';
+                    } else if (response.data.user_type === 'customer') {
+                        window.location.href = 'customer-dashboard.html';
                     } else {
-                        // Customer stays on landing page or redirects to booking
+                        // Stay on landing page
                         messageDiv.innerHTML = '';
                     }
                 }, 1000);
@@ -140,7 +142,7 @@
             }
             
             // If on dashboard, redirect to landing page
-            if (window.location.pathname.includes('index.html')) {
+            if (window.location.pathname.includes('index.html') || window.location.pathname.includes('customer-dashboard.html')) {
                 window.location.href = 'landing.html';
             }
         } catch (error) {
@@ -184,4 +186,5 @@
         logout
     };
 })();
+
 
