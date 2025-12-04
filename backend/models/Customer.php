@@ -73,6 +73,17 @@ class Customer {
     }
     
     /**
+     * Get customer by user_id
+     * @param int $userId
+     * @return array|false
+     */
+    public function getByUserId(int $userId) {
+        $sql = "SELECT * FROM {$this->table} WHERE user_id = :user_id";
+        $stmt = $this->db->query($sql, ['user_id' => $userId]);
+        return $stmt->fetch();
+    }
+    
+    /**
      * Check if email exists (for validation)
      * @param string $email
      * @param int|null $excludeId - Exclude this ID from check (for updates)
@@ -106,10 +117,11 @@ class Customer {
             throw new Exception("A customer with this email already exists.");
         }
         
-        $sql = "INSERT INTO {$this->table} (first_name, last_name, email, phone, address) 
-                VALUES (:first_name, :last_name, :email, :phone, :address)";
+        $sql = "INSERT INTO {$this->table} (user_id, first_name, last_name, email, phone, address) 
+                VALUES (:user_id, :first_name, :last_name, :email, :phone, :address)";
         
         $this->db->query($sql, [
+            'user_id'    => $data['user_id'] ?? null,
             'first_name' => $data['first_name'],
             'last_name'  => $data['last_name'],
             'email'      => $data['email'],
@@ -205,6 +217,97 @@ class Customer {
                 ORDER BY c.last_name, c.first_name ASC";
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll();
+    }
+    
+    /**
+     * Create customer record from user registration
+     * @param int $userId User ID from users table
+     * @param string $email User email
+     * @return int New customer ID
+     */
+    public function createFromUser(int $userId, string $email): int {
+        // Check if customer already exists for this user
+        $existing = $this->getByUserId($userId);
+        if ($existing) {
+            return $existing['id'];
+        }
+        
+        // Check if customer with this email already exists
+        if ($this->emailExists($email)) {
+            // Update existing customer to link to user
+            $existing = $this->getByEmail($email);
+            $sql = "UPDATE {$this->table} SET user_id = :user_id WHERE id = :id";
+            $this->db->query($sql, [
+                'user_id' => $userId,
+                'id' => $existing['id']
+            ]);
+            return $existing['id'];
+        }
+        
+        // Create new customer record
+        $sql = "INSERT INTO {$this->table} (user_id, first_name, last_name, email) 
+                VALUES (:user_id, '', '', :email)";
+        
+        $this->db->query($sql, [
+            'user_id' => $userId,
+            'email' => $email
+        ]);
+        
+        return (int) $this->db->lastInsertId();
+    }
+    
+    /**
+     * Get customer statistics
+     * @param int $customerId
+     * @return array Statistics: total_bookings, upcoming_bookings, total_spent, pending_payments
+     */
+    public function getCustomerStats(int $customerId): array {
+        $today = date('Y-m-d');
+        
+        // Total bookings
+        $sql = "SELECT COUNT(*) as total_bookings 
+                FROM bookings 
+                WHERE customer_id = :customer_id";
+        $stmt = $this->db->query($sql, ['customer_id' => $customerId]);
+        $totalBookings = $stmt->fetch()['total_bookings'];
+        
+        // Upcoming bookings (confirmed with future tour dates)
+        $sql = "SELECT COUNT(*) as upcoming_bookings 
+                FROM bookings b
+                INNER JOIN tours t ON b.tour_id = t.id
+                WHERE b.customer_id = :customer_id 
+                  AND b.status = 'confirmed' 
+                  AND t.start_date >= :today";
+        $stmt = $this->db->query($sql, [
+            'customer_id' => $customerId,
+            'today' => $today
+        ]);
+        $upcomingBookings = $stmt->fetch()['upcoming_bookings'];
+        
+        // Total spent (paid bookings, excluding cancelled)
+        $sql = "SELECT COALESCE(SUM(total_amount), 0) as total_spent 
+                FROM bookings 
+                WHERE customer_id = :customer_id 
+                  AND payment_status = 'paid' 
+                  AND status != 'cancelled'";
+        $stmt = $this->db->query($sql, ['customer_id' => $customerId]);
+        $totalSpent = (float) $stmt->fetch()['total_spent'];
+        
+        // Pending payments (unpaid/partial bookings, excluding cancelled)
+        $sql = "SELECT COALESCE(SUM(total_amount), 0) as pending_payments 
+                FROM bookings 
+                WHERE customer_id = :customer_id 
+                  AND payment_status IN ('unpaid', 'partial') 
+                  AND status != 'cancelled'";
+        $stmt = $this->db->query($sql, ['customer_id' => $customerId]);
+        $pendingPayments = (float) $stmt->fetch()['pending_payments'];
+        
+        return [
+            'total_bookings' => (int) $totalBookings,
+            'upcoming_bookings' => (int) $upcomingBookings,
+            'total_spent' => $totalSpent,
+            'pending_payments' => $pendingPayments
+        ];
     }
     
     /**

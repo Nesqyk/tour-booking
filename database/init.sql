@@ -37,16 +37,20 @@ CREATE INDEX idx_tours_dates ON tours(start_date, end_date);
 -- Customers Table
 CREATE TABLE IF NOT EXISTS customers (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NULL,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     email VARCHAR(255) NOT NULL,
     phone VARCHAR(20),
     address TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT uq_customer_email UNIQUE (email)
+    CONSTRAINT uq_customer_email UNIQUE (email),
+    CONSTRAINT fk_customer_user FOREIGN KEY (user_id) 
+        REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE INDEX idx_customers_name ON customers(last_name, first_name);
+CREATE INDEX idx_customers_user_id ON customers(user_id);
 
 -- Bookings Table
 CREATE TABLE IF NOT EXISTS bookings (

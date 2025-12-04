@@ -156,6 +156,26 @@ class Tour {
     }
     
     /**
+     * Get tours by destination name (case-insensitive partial match)
+     * @param string $destinationName - Name of the destination to match
+     * @return array - Array of active tours matching the destination name
+     */
+    public function getByDestinationName(string $destinationName): array {
+        // Use case-insensitive LIKE matching for flexibility
+        // This allows partial matches (e.g., "Island Paradise Tour" matches "Island Paradise")
+        $sql = "SELECT * FROM {$this->table} 
+                WHERE status = 'active' 
+                AND LOWER(destination) LIKE LOWER(:name) 
+                ORDER BY start_date ASC";
+        
+        // Add wildcards for partial matching
+        $searchPattern = '%' . trim($destinationName) . '%';
+        
+        $stmt = $this->db->query($sql, ['name' => $searchPattern]);
+        return $stmt->fetchAll();
+    }
+    
+    /**
      * Create a new tour
      * @param array $data
      * @return int - New tour ID

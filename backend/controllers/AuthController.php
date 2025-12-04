@@ -9,15 +9,18 @@
 
 require_once __DIR__ . '/BaseController.php';
 require_once __DIR__ . '/../models/User.php';
+require_once __DIR__ . '/../models/Customer.php';
 
 class AuthController extends BaseController {
     private $user;
+    private $customer;
     
     /**
      * Constructor
      */
     public function __construct() {
         $this->user = new User();
+        $this->customer = new Customer();
     }
     
     /**
@@ -50,6 +53,16 @@ class AuthController extends BaseController {
             $userId = $this->user->create($data);
             $user = $this->user->getById($userId);
             
+            // Auto-create customer record for customer users
+            if ($user['user_type'] === 'customer') {
+                try {
+                    $this->customer->createFromUser($userId, $user['email']);
+                } catch (Exception $e) {
+                    // Log error but don't fail registration
+                    error_log("Failed to create customer record for user {$userId}: " . $e->getMessage());
+                }
+            }
+            
             // Start session
             $this->startSession($user);
             
@@ -76,6 +89,20 @@ class AuthController extends BaseController {
             
             if (!$user) {
                 $this->errorResponse('Invalid email or password', 401);
+            }
+            
+            // Auto-create customer record if missing (for customer users)
+            if ($user['user_type'] === 'customer') {
+                try {
+                    $customer = $this->customer->getByUserId($user['id']);
+                    if (!$customer) {
+                        // Customer record doesn't exist, create it
+                        $this->customer->createFromUser($user['id'], $user['email']);
+                    }
+                } catch (Exception $e) {
+                    // Log error but don't fail login
+                    error_log("Failed to create/check customer record for user {$user['id']}: " . $e->getMessage());
+                }
             }
             
             // Start session
@@ -138,4 +165,5 @@ class AuthController extends BaseController {
         session_destroy();
     }
 }
+
 

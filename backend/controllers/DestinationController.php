@@ -9,15 +9,18 @@
 
 require_once __DIR__ . '/BaseController.php';
 require_once __DIR__ . '/../models/Destination.php';
+require_once __DIR__ . '/../models/Tour.php';
 
 class DestinationController extends BaseController {
     private $destination;
+    private $tour;
     
     /**
      * Constructor
      */
     public function __construct() {
         $this->destination = new Destination();
+        $this->tour = new Tour();
     }
     
     /**
@@ -118,6 +121,33 @@ class DestinationController extends BaseController {
             
         } catch (Exception $e) {
             $this->errorResponse($e->getMessage(), 400);
+        }
+    }
+    
+    /**
+     * Get tours for a destination
+     * GET /api/destinations/{id}/tours
+     */
+    public function tours(): void {
+        try {
+            $id = $this->requireResourceId();
+            
+            // Get destination by ID to validate it exists and get the name
+            $destination = $this->destination->getById($id);
+            
+            if (!$destination) {
+                $this->errorResponse('Destination not found', 404);
+                return;
+            }
+            
+            // Get tours matching the destination name
+            $tours = $this->tour->getByDestinationName($destination['name']);
+            
+            // Return tours (empty array is valid - destination exists but has no tours)
+            $this->successResponse(['tours' => $tours]);
+            
+        } catch (Exception $e) {
+            $this->errorResponse($e->getMessage(), 500);
         }
     }
 }

@@ -40,6 +40,13 @@ class BookingController extends BaseController {
                 'offset'         => $_GET['offset'] ?? 0
             ];
             
+            // If user is a customer, auto-filter by their customer_id
+            if ($this->isCustomer()) {
+                $customer = $this->requireCurrentCustomer();
+                $filters['customer_id'] = $customer['id'];
+            }
+            // Admins can see all bookings, but if they explicitly filter by customer_id, respect it
+            
             // Remove null values
             $filters = array_filter($filters, fn($v) => $v !== null);
             
@@ -71,6 +78,14 @@ class BookingController extends BaseController {
                 $this->errorResponse('Booking not found', 404);
             }
             
+            // Ownership verification for customers
+            if ($this->isCustomer()) {
+                $customer = $this->requireCurrentCustomer();
+                if ($booking['customer_id'] != $customer['id']) {
+                    $this->errorResponse('Access denied. You can only view your own bookings.', 403);
+                }
+            }
+            
             $this->successResponse($booking);
             
         } catch (Exception $e) {
@@ -88,6 +103,24 @@ class BookingController extends BaseController {
             
             if (empty($data)) {
                 $this->errorResponse('No data provided', 400);
+            }
+            
+            // If user is a customer, auto-set customer_id from session
+            if ($this->isCustomer()) {
+                $customer = $this->requireCurrentCustomer();
+                $data['customer_id'] = $customer['id'];
+                // Set default status and payment_status for customer bookings
+                if (!isset($data['status'])) {
+                    $data['status'] = 'pending';
+                }
+                if (!isset($data['payment_status'])) {
+                    $data['payment_status'] = 'unpaid';
+                }
+            }
+            
+            // Customers cannot manually set customer_id (security)
+            if ($this->isCustomer() && isset($data['customer_id']) && $data['customer_id'] != $this->requireCurrentCustomer()['id']) {
+                $this->errorResponse('You cannot create bookings for other customers', 403);
             }
             
             $booking = $this->booking->create($data);
@@ -113,6 +146,35 @@ class BookingController extends BaseController {
                 $this->errorResponse('No data provided', 400);
             }
             
+            // Get existing booking for ownership check
+            $existing = $this->booking->read($id);
+            if (!$existing) {
+                $this->errorResponse('Booking not found', 404);
+            }
+            
+            // Ownership verification for customers
+            if ($this->isCustomer()) {
+                $customer = $this->requireCurrentCustomer();
+                if ($existing['customer_id'] != $customer['id']) {
+                    $this->errorResponse('Access denied. You can only update your own bookings.', 403);
+                }
+                
+                // Customers can only cancel bookings, not confirm them
+                if (isset($data['status']) && $data['status'] === 'confirmed') {
+                    $this->errorResponse('You cannot confirm bookings. Please contact support.', 403);
+                }
+                
+                // If customer is cancelling, auto-set payment_status to refunded
+                if (isset($data['status']) && $data['status'] === 'cancelled') {
+                    $data['payment_status'] = 'refunded';
+                }
+                
+                // Customers cannot change customer_id
+                if (isset($data['customer_id'])) {
+                    unset($data['customer_id']);
+                }
+            }
+            
             $booking = $this->booking->update($id, $data);
             
             $this->successResponse($booking, 'Booking updated successfully');
@@ -129,7 +191,24 @@ class BookingController extends BaseController {
     public function destroy(): void {
         try {
             $id = $this->requireResourceId();
-            $hardDelete = isset($_GET['hard']) && $_GET['hard'] === 'true';
+            
+            // Get existing booking for ownership check
+            $existing = $this->booking->read($id);
+            if (!$existing) {
+                $this->errorResponse('Booking not found', 404);
+            }
+            
+            // Ownership verification for customers
+            if ($this->isCustomer()) {
+                $customer = $this->requireCurrentCustomer();
+                if ($existing['customer_id'] != $customer['id']) {
+                    $this->errorResponse('Access denied. You can only cancel your own bookings.', 403);
+                }
+                // Customers can only soft delete (cancel), not hard delete
+                $hardDelete = false;
+            } else {
+                $hardDelete = isset($_GET['hard']) && $_GET['hard'] === 'true';
+            }
             
             $this->booking->delete($id, $hardDelete);
             

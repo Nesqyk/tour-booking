@@ -69,6 +69,14 @@ class CustomerController extends BaseController {
                 $this->errorResponse('Customer not found', 404);
             }
             
+            // Ownership verification for customers
+            if ($this->isCustomer()) {
+                $currentCustomer = $this->requireCurrentCustomer();
+                if ($customer['id'] != $currentCustomer['id']) {
+                    $this->errorResponse('Access denied. You can only view your own profile.', 403);
+                }
+            }
+            
             $this->successResponse($customer);
             
         } catch (Exception $e) {
@@ -106,10 +114,36 @@ class CustomerController extends BaseController {
         try {
             $id = $this->requireResourceId();
             
+            // Get existing customer for ownership check
+            $existing = $this->customer->getById($id);
+            if (!$existing) {
+                $this->errorResponse('Customer not found', 404);
+            }
+            
+            // Ownership verification for customers
+            if ($this->isCustomer()) {
+                $currentCustomer = $this->requireCurrentCustomer();
+                if ($existing['id'] != $currentCustomer['id']) {
+                    $this->errorResponse('Access denied. You can only update your own profile.', 403);
+                }
+                
+                // Customers cannot change email (must match user email)
+                $user = $this->requireAuth();
+                if (isset($data['email']) && $data['email'] !== $user['email']) {
+                    $this->errorResponse('You cannot change your email address.', 403);
+                }
+            }
+            
             $data = $this->getRequestBody();
             
             if (empty($data)) {
                 $this->errorResponse('No data provided', 400);
+            }
+            
+            // Ensure email matches user email for customers
+            if ($this->isCustomer()) {
+                $user = $this->requireAuth();
+                $data['email'] = $user['email'];
             }
             
             $this->customer->update($id, $data);
@@ -130,12 +164,48 @@ class CustomerController extends BaseController {
         try {
             $id = $this->requireResourceId();
             
+            // Customers cannot delete their own profile (only admin can)
+            if ($this->isCustomer()) {
+                $this->errorResponse('You cannot delete your profile. Please contact support.', 403);
+            }
+            
             $this->customer->delete($id);
             
             $this->successResponse(null, 'Customer deleted successfully');
             
         } catch (Exception $e) {
             $this->errorResponse($e->getMessage(), 400);
+        }
+    }
+    
+    /**
+     * Get customer statistics
+     * GET /api/customers/{id}/stats
+     */
+    public function stats(): void {
+        try {
+            $id = $this->requireResourceId();
+            
+            // Get customer for ownership check
+            $customer = $this->customer->getById($id);
+            if (!$customer) {
+                $this->errorResponse('Customer not found', 404);
+            }
+            
+            // Ownership verification for customers
+            if ($this->isCustomer()) {
+                $currentCustomer = $this->requireCurrentCustomer();
+                if ($customer['id'] != $currentCustomer['id']) {
+                    $this->errorResponse('Access denied. You can only view your own statistics.', 403);
+                }
+            }
+            
+            $stats = $this->customer->getCustomerStats($id);
+            
+            $this->successResponse($stats);
+            
+        } catch (Exception $e) {
+            $this->errorResponse($e->getMessage(), 500);
         }
     }
 }

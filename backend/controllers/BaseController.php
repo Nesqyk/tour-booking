@@ -6,6 +6,8 @@
  * Rufbac Tour System (RTS) Dashboard
  */
 
+require_once __DIR__ . '/../middleware/AuthMiddleware.php';
+
 abstract class BaseController {
     /**
      * Resource ID from URL path (set by router)
@@ -101,6 +103,107 @@ abstract class BaseController {
         }
         return $this->resourceId;
     }
+    
+    // =========================================
+    // AUTHENTICATION HELPERS
+    // =========================================
+    
+    /**
+     * Get current authenticated user
+     * @return array|null User data or null if not authenticated
+     */
+    protected function getCurrentUser(): ?array {
+        return AuthMiddleware::getCurrentUser();
+    }
+    
+    /**
+     * Require user to be authenticated
+     * @throws Exception If not authenticated
+     * @return array User data
+     */
+    protected function requireAuth(): array {
+        try {
+            return AuthMiddleware::requireAuth();
+        } catch (Exception $e) {
+            $statusCode = $e->getCode() ?: 401;
+            $this->errorResponse($e->getMessage(), $statusCode);
+        }
+    }
+    
+    /**
+     * Require user to be a customer
+     * @throws Exception If not authenticated or not a customer
+     * @return array User data
+     */
+    protected function requireCustomer(): array {
+        try {
+            return AuthMiddleware::requireCustomer();
+        } catch (Exception $e) {
+            $statusCode = $e->getCode() ?: 403;
+            $this->errorResponse($e->getMessage(), $statusCode);
+        }
+    }
+    
+    /**
+     * Require user to be an admin
+     * @throws Exception If not authenticated or not an admin
+     * @return array User data
+     */
+    protected function requireAdmin(): array {
+        try {
+            return AuthMiddleware::requireAdmin();
+        } catch (Exception $e) {
+            $statusCode = $e->getCode() ?: 403;
+            $this->errorResponse($e->getMessage(), $statusCode);
+        }
+    }
+    
+    /**
+     * Get current user's customer record
+     * @return array|null Customer data or null if not found
+     */
+    protected function getCurrentCustomer(): ?array {
+        return AuthMiddleware::getCurrentCustomer();
+    }
+    
+    /**
+     * Require current user to have a customer record
+     * @throws Exception If not authenticated, not a customer, or customer record not found
+     * @return array Customer data
+     */
+    protected function requireCurrentCustomer(): array {
+        try {
+            return AuthMiddleware::requireCurrentCustomer();
+        } catch (Exception $e) {
+            $statusCode = $e->getCode() ?: 404;
+            $this->errorResponse($e->getMessage(), $statusCode);
+        }
+    }
+    
+    /**
+     * Check if user is authenticated
+     * @return bool
+     */
+    protected function isAuthenticated(): bool {
+        return AuthMiddleware::isAuthenticated();
+    }
+    
+    /**
+     * Check if user is customer
+     * @return bool
+     */
+    protected function isCustomer(): bool {
+        return AuthMiddleware::isCustomer();
+    }
+    
+    /**
+     * Check if user is admin
+     * @return bool
+     */
+    protected function isAdmin(): bool {
+        return AuthMiddleware::isAdmin();
+    }
 }
+
 
 

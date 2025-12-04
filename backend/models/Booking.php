@@ -482,8 +482,33 @@ class Booking {
             $params['status'] = $filters['status'];
         }
         
+        if (!empty($filters['payment_status'])) {
+            $sql .= " AND payment_status = :payment_status";
+            $params['payment_status'] = $filters['payment_status'];
+        }
+        
+        if (!empty($filters['tour_id'])) {
+            $sql .= " AND tour_id = :tour_id";
+            $params['tour_id'] = (int) $filters['tour_id'];
+        }
+        
+        if (!empty($filters['customer_id'])) {
+            $sql .= " AND customer_id = :customer_id";
+            $params['customer_id'] = (int) $filters['customer_id'];
+        }
+        
+        if (!empty($filters['date_from'])) {
+            $sql .= " AND booking_date >= :date_from";
+            $params['date_from'] = $filters['date_from'];
+        }
+        
+        if (!empty($filters['date_to'])) {
+            $sql .= " AND booking_date <= :date_to";
+            $params['date_to'] = $filters['date_to'];
+        }
+        
         if (!empty($filters['search'])) {
-            $sql .= " AND (customer_name LIKE :search OR destination LIKE :search)";
+            $sql .= " AND (customer_name LIKE :search OR destination LIKE :search OR email LIKE :search)";
             $params['search'] = '%' . $filters['search'] . '%';
         }
         
